@@ -2,34 +2,64 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>支付宝支付页面</title>
+    <script>
+        // 使用 JavaScript 发送 AJAX 请求到后端
+        function sendAlipayRequest() {
+            // 获取表单字段的值
+            const subject = document.getElementById("subject").value;
+            const total_amount = document.getElementById("total_amount").value;
+            const body = document.getElementById("body").value;
+
+            // 构造请求的 JSON 数据
+            const alipayBean = {
+                subject: subject,
+                total_amount: total_amount,
+                body: body
+            };
+
+            // 发送 POST 请求到后端 /alipay
+            fetch("/alipay", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(alipayBean)
+            })
+                .then(response => response.text())
+                .then(data => {
+                    // 将后端返回的 HTML 表单代码插入到页面
+                    document.getElementById("response").innerHTML = data;
+
+                    // 获取刚刚插入的表单并提交
+                    const form = document.getElementById("response").querySelector("form");
+                    if (form) {
+                        form.submit();
+                    }
+                })
+                .catch(error => {
+                    console.error("支付请求失败:", error);
+                    document.getElementById("response").innerText = "支付请求失败: " + error;
+                });
+        }
+    </script>
 </head>
 <body>
-<H1>支付测试</H1>
-<hr>
-<div class="form-container">
-    <form id="form" action="http://localhost:8080/alipay" method="post">
-        <!--   *商户订单 :-->
+<h1>支付宝支付页面</h1>
+<form onsubmit="event.preventDefault(); sendAlipayRequest();">
+    <label for="subject">订单号:</label>
+    <input type="text" id="subject" name="subject" required><br><br>
 
-        *订单名称 :
-        <input type="text" name="subject" value="快乐风男"><br>
-        *付款金额 :
-        <input type="text" name="total_amount" value="300" ><br>
-        *商品描述 :
-        <input type="text" name="body" value="移动的300元"><br>
-        <input type="submit" value="支付宝支付" >
-    </form>
-</div>
+    <label for="total_amount">金额:</label>
+    <input type="number" id="total_amount" name="total_amount" step="0.01" required><br><br>
+
+    <label for="body">订单描述:</label>
+    <textarea id="body" name="body" required></textarea><br><br>
+
+    <button type="submit">提交支付</button>
+</form>
+
+<div id="response"></div>
 </body>
-
-<style>
-    .form-container {
-        padding-top:10px;
-    }
-    input {
-        margin:10px;
-
-    }
-</style>
 </html>
-
