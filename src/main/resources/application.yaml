@@ -32,8 +32,3 @@ mybatis:
     map-underscore-to-camel-case: true
 
 
-aliyunoss:
-  endpoint: oss-cn-beijing.aliyuncs.com
-  accessKeyId: LTAI5tH4CVCv41iqiE8C5eJw
-  accessKeySecret: wK2BGls0Xc2riDuJ3L1ovQzTFJR3tV
-  bucketName: bucket-list-01
