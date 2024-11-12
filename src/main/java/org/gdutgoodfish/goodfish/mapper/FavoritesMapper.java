@@ -4,7 +4,7 @@ import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
-import org.gdutgoodfish.goodfish.bean.Favorites;
+import org.gdutgoodfish.goodfish.entity.Favorites;
 
 import java.util.List;
 

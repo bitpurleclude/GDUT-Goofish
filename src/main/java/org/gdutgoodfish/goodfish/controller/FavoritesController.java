@@ -2,13 +2,11 @@ package org.gdutgoodfish.goodfish.controller;
 
 
 import lombok.RequiredArgsConstructor;
-import org.gdutgoodfish.goodfish.bean.Result;
+import org.gdutgoodfish.goodfish.entity.Result;
 import org.gdutgoodfish.goodfish.dto.FavoritesAddDTO;
 import org.gdutgoodfish.goodfish.service.FavoritesService;
 import org.gdutgoodfish.goodfish.vo.FavoritesPageQueryVO;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * <p>

@@ -1,4 +1,4 @@
-package org.gdutgoodfish.goodfish.bean;
+package org.gdutgoodfish.goodfish.entity;
 
 import java.io.Serializable;
 

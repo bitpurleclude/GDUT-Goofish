@@ -1,14 +1,13 @@
 package org.gdutgoodfish.goodfish.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.gdutgoodfish.goodfish.bean.Items;
+import org.gdutgoodfish.goodfish.entity.Items;
 import org.gdutgoodfish.goodfish.dto.ItemsDTO;
 import org.gdutgoodfish.goodfish.mapper.ItemsMapper;
 import org.gdutgoodfish.goodfish.service.ItemsService;
 import org.gdutgoodfish.goodfish.util.FileUploadUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package org.gdutgoodfish.goodfish.bean;
+package org.gdutgoodfish.goodfish.entity;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

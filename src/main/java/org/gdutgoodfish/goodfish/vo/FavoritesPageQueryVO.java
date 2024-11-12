@@ -3,7 +3,7 @@ package org.gdutgoodfish.goodfish.vo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.gdutgoodfish.goodfish.bean.Items;
+import org.gdutgoodfish.goodfish.entity.Items;
 
 import java.util.List;
 
