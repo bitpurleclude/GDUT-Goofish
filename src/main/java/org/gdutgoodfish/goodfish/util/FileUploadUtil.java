@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @Component
 @Data
-@ConfigurationProperties(prefix = "oss")
+@ConfigurationProperties(prefix = "aliyunoss")
 public class FileUploadUtil {
 
     private String endpoint;
