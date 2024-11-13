@@ -83,6 +83,7 @@ public class OrderController {
     @PostMapping(value = "alipay/notify")
     public String notify(@RequestBody String out_trade_no) {
         System.out.println("out_trade_no: " + out_trade_no);
+        //todo 处理支付成功逻辑
         return "success";
     }
 }
