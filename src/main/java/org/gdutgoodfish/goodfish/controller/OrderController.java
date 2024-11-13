@@ -5,6 +5,7 @@ import cn.hutool.core.lang.Snowflake;
 import com.alipay.api.AlipayApiException;
 import org.gdutgoodfish.goodfish.bean.AlipayBean;
 import org.gdutgoodfish.goodfish.dto.OrderDTO;
+import org.gdutgoodfish.goodfish.entity.Result;
 import org.gdutgoodfish.goodfish.service.impl.Alipay;
 import org.gdutgoodfish.goodfish.service.impl.OrderImpl;
 import org.gdutgoodfish.goodfish.service.impl.OrderItemServiceImpl;
@@ -35,7 +36,10 @@ public class OrderController {
 
     @PostMapping(value = "newOrder")
     @ResponseBody
-    public OrderDTO newOrder(OrderDTO orderDTO) {
+    public Result<OrderDTO> newOrder(OrderDTO orderDTO) {
+        /*
+            * 参数校验
+         */
         if (orderDTO == null) {
             throw new NullPointerException("OrderDTO cannot be null");
         }
@@ -55,24 +59,24 @@ public class OrderController {
         orderDTO.setOrderId(snowflake.nextIdStr());
         orderImpl.newOrder(orderDTO);
         orderItemServiceImpl.newOrderItem(orderDTO);
-        return orderDTO;
+        Result<OrderDTO> success = Result.success("Order created successfully");
+        success.setData(orderDTO);
+        return success;
     }
 
-    /**
-     * 支付接口
-     *
-     * @param alipayBean
-     * @return
-     * @throws AlipayApiException
-     */
-    @PostMapping(value = "alipay")
-    @ResponseBody
-    public ResponseEntity<String> alipay(@RequestBody AlipayBean alipayBean) throws AlipayApiException {
-        String form = alipay.pay(alipayBean); // 获取支付表单HTML代码
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.TEXT_HTML);
-        return new ResponseEntity<>(form, headers, HttpStatus.OK);
-    }
+/**
+ * 支付接口
+ *
+ * @param alipayBean
+ * @return
+ * @throws AlipayApiException
+ */
+@PostMapping(value = "alipay")
+@ResponseBody
+public Result<String> alipay(@RequestBody AlipayBean alipayBean) throws AlipayApiException {
+    String form = alipay.pay(alipayBean); // 获取支付表单HTML代码
+    return Result.success(form, "支付表单获取成功");
+}
 
     /**
      * 支付成功回调接口
@@ -80,10 +84,11 @@ public class OrderController {
      * @param out_trade_no
      * @return
      */
-    @PostMapping(value = "alipay/notify")
-    public String notify(@RequestBody String out_trade_no) {
-        System.out.println("out_trade_no: " + out_trade_no);
-        //todo 处理支付成功逻辑
-        return "success";
-    }
+@PostMapping(value = "alipay/notify")
+@ResponseBody
+public Result<String> notify(@RequestBody String out_trade_no) {
+    System.out.println("out_trade_no: " + out_trade_no);
+    //todo 处理支付成功逻辑
+    return Result.success("success");
+}
 }
