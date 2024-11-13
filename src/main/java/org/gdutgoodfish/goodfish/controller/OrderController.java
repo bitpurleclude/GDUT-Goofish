@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 
 @Controller
+@RequestMapping("/api/v1/Order")
 public class OrderController {
     @Autowired
     Alipay alipay;
