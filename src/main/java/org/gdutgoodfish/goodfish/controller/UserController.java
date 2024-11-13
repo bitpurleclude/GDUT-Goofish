@@ -1,13 +1,17 @@
 package org.gdutgoodfish.goodfish.controller;
 
 
+import io.jsonwebtoken.Claims;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.gdutgoodfish.goodfish.entity.Result;
 import org.gdutgoodfish.goodfish.entity.User;
 import org.gdutgoodfish.goodfish.service.UserService;
+import org.gdutgoodfish.goodfish.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -38,8 +42,17 @@ public class UserController {
         Map.Entry<String, String> secondEntry = iterator.next();
         String password = secondEntry.getValue(); // 第二个参数
         User user = userService.login(identifier, password);
+
+        // 登录成功，生成 token
         if (user != null) {
-            return Result.success(user);
+            Map<String, Object> claims = new HashMap<>();
+            claims.put("userId", user.getId());
+            claims.put("username", user.getUsername());
+            claims.put("email", user.getEmail());
+
+            String jwt = JwtUtil.generateJwt(claims);
+
+            return Result.success(jwt);
         } else {
             return Result.error("用户名或邮箱错误或者密码错误");
         }

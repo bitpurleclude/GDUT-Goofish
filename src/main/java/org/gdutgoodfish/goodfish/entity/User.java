@@ -21,4 +21,8 @@ public class User { // 用户实体类
     private String profilePicture;       // 用户头像的 URL
 
     private LocalDateTime joinDate;     // 创建时间
+
+    public Object getId() {
+        return userId;
+    }
 }
