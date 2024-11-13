@@ -13,5 +13,9 @@ public class OrderDTO {
     // 商品描述
     private String orderDescription;
     // 用户id
-    private Long userId;
+    private Long sellerId;
+    // 产品id
+    private Long productId;
+    // 产品数量
+    private Integer quantity;
 }

@@ -1,33 +1,46 @@
 package org.gdutgoodfish.goodfish.entity;
 
+import lombok.Builder;
+import lombok.Data;
 import org.springframework.data.annotation.Id;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-
+@Builder
+@Data
 public class SecondHandOrder {
 
     @Id
-    private String orderId;
+// 订单ID
+private String orderId;
 
-    private Long userId;
+// 用户ID
+private Long userId;
 
-    private Long sellerId;
+// 卖家ID
+private Long sellerId;
 
-    private Integer status;
+// 订单状态
+private Integer status;
 
-    private BigDecimal totalAmount;
+// 总金额
+private BigDecimal totalAmount;
 
-    private BigDecimal discountAmount;
+// 折扣金额
+private BigDecimal discountAmount;
 
-    private BigDecimal payAmount;
+// 支付金额
+private BigDecimal payAmount;
 
-    private String paymentMethod;
+// 支付方式
+private String paymentMethod;
 
-    private LocalDateTime createdAt;
+// 创建时间
+private LocalDateTime createdAt;
 
-    private LocalDateTime updatedAt;
+// 更新时间
+private LocalDateTime updatedAt;
 
-    // Getters and Setters
+
 }

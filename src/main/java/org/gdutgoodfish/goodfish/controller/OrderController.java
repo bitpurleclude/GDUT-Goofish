@@ -6,6 +6,7 @@ import com.alipay.api.AlipayApiException;
 import org.gdutgoodfish.goodfish.bean.AlipayBean;
 import org.gdutgoodfish.goodfish.dto.OrderDTO;
 import org.gdutgoodfish.goodfish.service.impl.Alipay;
+import org.gdutgoodfish.goodfish.service.impl.OrderImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -25,11 +26,14 @@ public class OrderController {
     Alipay alipay;
     @Autowired
     Snowflake snowflake;
+    @Autowired
+    OrderImpl orderImpl;
 
     @PostMapping(value = "newOrder")
     @ResponseBody
     public OrderDTO newOrder(@RequestBody OrderDTO orderDTO) {
         orderDTO.setOrderId(snowflake.nextIdStr());
+        orderImpl.newOrder(orderDTO);
 
         return orderDTO;
     }
