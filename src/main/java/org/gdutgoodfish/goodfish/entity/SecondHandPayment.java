@@ -5,13 +5,19 @@ import java.time.LocalDateTime;
 
 public class SecondHandPayment {
 
-    private Long paymentId;
-    private String orderId;
-    private BigDecimal paymentAmount;
-    private String paymentMethod;
-    private Integer status;
-    private String transactionId;
-    private LocalDateTime createdAt;
-
+// 支付ID
+private Long paymentId;
+// 订单ID
+private String orderId;
+// 支付金额
+private BigDecimal paymentAmount;
+// 支付方式
+private String paymentMethod;
+// 状态
+private Integer status;
+// 交易ID
+private String transactionId;
+// 创建时间
+private LocalDateTime createdAt;
     // Getters and Setters
 }
