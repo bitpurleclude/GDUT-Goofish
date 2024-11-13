@@ -7,26 +7,35 @@ import java.time.LocalDateTime;
 
 public class SecondHandOrderItem {
 
-    @Id
-    private Long itemId;
+@Id
+// 商品项ID
+private Long itemId;
 
-    private String orderId;
+// 订单ID
+private String orderId;
 
-    private Long productId;
+// 商品ID
+private Long productId;
 
-    private String productName;
+// 商品名称
+private String productName;
 
-    private Integer quantity;
+// 数量
+private Integer quantity;
 
-    private BigDecimal price;
+// 价格
+private BigDecimal price;
 
-    private BigDecimal totalPrice;
+// 总价
+private BigDecimal totalPrice;
 
-    private String productCondition;
+// 商品状况
+private String productCondition;
 
-    private Boolean warrantyStatus;
+// 保修状态
+private Boolean warrantyStatus;
 
-    private LocalDateTime createdAt;
-
+// 创建时间
+private LocalDateTime createdAt;
     // Getters and Setters
 }
