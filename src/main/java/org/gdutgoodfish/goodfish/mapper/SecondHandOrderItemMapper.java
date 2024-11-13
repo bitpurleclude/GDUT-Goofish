@@ -2,6 +2,7 @@ package org.gdutgoodfish.goodfish.mapper;
 
 import com.alipay.api.domain.OrderItem;
 import org.apache.ibatis.annotations.*;
+import org.gdutgoodfish.goodfish.entity.SecondHandOrderItem;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Mapper
@@ -10,7 +11,7 @@ public interface SecondHandOrderItemMapper {
  /**
  * 插入一个新的订单项到数据库中。
  *
- * @param orderItem 要插入的订单项
+ * @param secondHandOrderItem 要插入的订单项
  * @return 受影响的行数
  */
 @Insert("INSERT INTO second_hand_order_item(" +
@@ -37,7 +38,7 @@ public interface SecondHandOrderItemMapper {
         " #{createdAt}" +
         ")"
 )
-int insertOrderItem(OrderItem orderItem);
+int insertOrderItem(SecondHandOrderItem secondHandOrderItem);
 /**
  * 更新数据库中的订单项。
  *

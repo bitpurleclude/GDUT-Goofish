@@ -1,10 +1,13 @@
 package org.gdutgoodfish.goodfish.entity;
+import lombok.Builder;
+import lombok.Data;
 import org.springframework.data.annotation.Id;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-
+@Data
+@Builder
 public class SecondHandOrderItem {
 
 @Id

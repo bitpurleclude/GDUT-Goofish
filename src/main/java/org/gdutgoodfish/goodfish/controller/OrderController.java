@@ -7,6 +7,8 @@ import org.gdutgoodfish.goodfish.bean.AlipayBean;
 import org.gdutgoodfish.goodfish.dto.OrderDTO;
 import org.gdutgoodfish.goodfish.service.impl.Alipay;
 import org.gdutgoodfish.goodfish.service.impl.OrderImpl;
+import org.gdutgoodfish.goodfish.service.impl.OrderItemServiceImpl;
+import org.gdutgoodfish.goodfish.util.ObjectValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -28,18 +30,37 @@ public class OrderController {
     Snowflake snowflake;
     @Autowired
     OrderImpl orderImpl;
+    @Autowired
+    OrderItemServiceImpl orderItemServiceImpl;
 
     @PostMapping(value = "newOrder")
     @ResponseBody
-    public OrderDTO newOrder(@RequestBody OrderDTO orderDTO) {
+    public OrderDTO newOrder(OrderDTO orderDTO) {
+        if (orderDTO == null) {
+            throw new NullPointerException("OrderDTO cannot be null");
+        }
+        if (ObjectValidator.validate(orderDTO)) {
+            throw new NullPointerException("OrderDTO or param cannot be null");
+        }
+
+        if (orderDTO.getQuantity() < 0) {
+            throw new IllegalArgumentException("Quantity cannot be negative");
+        }
+        if (orderDTO.getProductPrice() < 0) {
+            throw new IllegalArgumentException("Product price cannot be negative");
+        }
+        if (orderDTO.getOrderAmount() < 0) {
+            throw new IllegalArgumentException("Order amount cannot be negative");
+        }
         orderDTO.setOrderId(snowflake.nextIdStr());
         orderImpl.newOrder(orderDTO);
-
+        orderItemServiceImpl.newOrderItem(orderDTO);
         return orderDTO;
     }
 
     /**
      * 支付接口
+     *
      * @param alipayBean
      * @return
      * @throws AlipayApiException
@@ -55,6 +76,7 @@ public class OrderController {
 
     /**
      * 支付成功回调接口
+     *
      * @param out_trade_no
      * @return
      */
