@@ -79,6 +79,9 @@
           awesome-vue
         </a>
       </li>
+      <li>
+        <router-link to="/chat">chat</router-link>
+      </li>
     </ul>
   </div>
 </template>

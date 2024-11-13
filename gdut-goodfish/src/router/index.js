@@ -16,6 +16,11 @@ export default new Router({
       path: '/1',
       name: 'HelloWorld1',
       component: HelloWorld1
+    },
+    {
+      path: '/chat',
+      name: 'chat',
+      component: () => import('../components/chat/chat.vue')
     }
   ]
 })
