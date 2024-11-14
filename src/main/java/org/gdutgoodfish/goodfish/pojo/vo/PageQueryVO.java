@@ -1,16 +1,17 @@
 package org.gdutgoodfish.goodfish.pojo.vo;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.gdutgoodfish.goodfish.pojo.entity.Items;
 
 import java.util.List;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class FavoritesPageQueryVO {
+public class PageQueryVO<T> {
     private Long total;
-    private List<Items> favorites;
+    private List<T> record;
 }

@@ -1,7 +1,7 @@
 package org.gdutgoodfish.goodfish.service.impl;
 
-import org.gdutgoodfish.goodfish.pojo.common.Result;
 import org.gdutgoodfish.goodfish.constant.OrderStatusConstant;
+import org.gdutgoodfish.goodfish.pojo.common.UserContext;
 import org.gdutgoodfish.goodfish.pojo.dto.OrderDTO;
 import org.gdutgoodfish.goodfish.pojo.entity.SecondHandOrder;
 import org.gdutgoodfish.goodfish.mapper.SecondHandOrderMapper;
@@ -22,7 +22,7 @@ public class OrderImpl implements Order {
         SecondHandOrder secondHandOrder = null;
         secondHandOrder.builder()
                 .orderId(orderDTO.getOrderId())
-                .userId(Result.UserContext.getCurrentId())
+                .userId(UserContext.getCurrentId())
                 .sellerId(orderDTO.getSellerId())
                 .status(OrderStatusConstant.ORDER_STATUS_UNPAID)
                 .totalAmount(new BigDecimal(orderDTO.getOrderAmount()))

@@ -9,7 +9,7 @@ import org.gdutgoodfish.goodfish.mapper.UsersMapper;
 import org.gdutgoodfish.goodfish.pojo.common.UserContext;
 import org.gdutgoodfish.goodfish.pojo.dto.UserResetPasswordDTO;
 import org.gdutgoodfish.goodfish.pojo.entity.Users;
-import org.gdutgoodfish.goodfish.service.UsersService;
+import org.gdutgoodfish.goodfish.service.IUsersService;
 import org.gdutgoodfish.goodfish.util.JwtUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 
 
 @Service
-public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements UsersService {
+public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements IUsersService {
 
 
     @Override

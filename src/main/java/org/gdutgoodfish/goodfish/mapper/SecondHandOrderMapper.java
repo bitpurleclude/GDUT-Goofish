@@ -5,7 +5,7 @@ import org.gdutgoodfish.goodfish.pojo.entity.SecondHandOrder;
 
 import java.util.List;
 
-@Mapper
+
 public interface SecondHandOrderMapper {
 
     int insertOrder(SecondHandOrder order);

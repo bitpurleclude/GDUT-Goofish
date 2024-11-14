@@ -4,7 +4,7 @@ import com.alipay.api.domain.OrderItem;
 import org.apache.ibatis.annotations.*;
 import org.gdutgoodfish.goodfish.pojo.entity.SecondHandOrderItem;
 
-@Mapper
+
 public interface SecondHandOrderItemMapper {
 
  /**

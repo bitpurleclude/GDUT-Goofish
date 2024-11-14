@@ -7,7 +7,7 @@ import org.gdutgoodfish.goodfish.pojo.common.Result;
 import org.gdutgoodfish.goodfish.pojo.common.UserContext;
 import org.gdutgoodfish.goodfish.pojo.dto.UserResetPasswordDTO;
 import org.gdutgoodfish.goodfish.pojo.entity.Users;
-import org.gdutgoodfish.goodfish.service.UsersService;
+import org.gdutgoodfish.goodfish.service.IUsersService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -20,7 +20,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class UsersController {
 
-    private final UsersService usersService;
+    private final IUsersService usersService;
 
     @PostMapping("/register")
     public Result<String> register(@RequestBody Users users) {
