@@ -8,13 +8,13 @@ import java.util.List;
 
 public interface SecondHandOrderMapper {
 
-    int insertOrder(SecondHandOrder order);
-
-    SecondHandOrder selectOrderById(String orderId);
-
-    List<SecondHandOrder> selectAllOrders();
-
-    int updateOrderStatus(String orderId, Integer status);
-
-    int deleteOrderById(String orderId);
+//    int insertOrder(SecondHandOrder order);
+//
+//    SecondHandOrder selectOrderById(String orderId);
+//
+//    List<SecondHandOrder> selectAllOrders();
+//
+//    int updateOrderStatus(String orderId, Integer status);
+//
+//    int deleteOrderById(String orderId);
 }

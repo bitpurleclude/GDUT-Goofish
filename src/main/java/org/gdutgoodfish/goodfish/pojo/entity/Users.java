@@ -8,9 +8,7 @@ import java.io.Serial;
 import java.time.LocalDateTime;
 import java.io.Serializable;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 import lombok.experimental.Accessors;
 
 /**
@@ -26,6 +24,8 @@ import lombok.experimental.Accessors;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("users")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Users implements Serializable {
 
 

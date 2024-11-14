@@ -7,6 +7,8 @@ import org.gdutgoodfish.goodfish.exception.userException.UserLoginFailureExcepti
 import org.gdutgoodfish.goodfish.exception.userException.UserResetPasswordException;
 import org.gdutgoodfish.goodfish.mapper.UsersMapper;
 import org.gdutgoodfish.goodfish.pojo.common.UserContext;
+import org.gdutgoodfish.goodfish.pojo.dto.UserLoginDTO;
+import org.gdutgoodfish.goodfish.pojo.dto.UserRegisterDTO;
 import org.gdutgoodfish.goodfish.pojo.dto.UserResetPasswordDTO;
 import org.gdutgoodfish.goodfish.pojo.entity.Users;
 import org.gdutgoodfish.goodfish.service.IUsersService;
@@ -22,19 +24,22 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
 
 
     @Override
-    public void register(Users users) {
-        Users user = lambdaQuery().eq(Users::getUsername, users.getUsername()).one();
+    public void register(UserRegisterDTO userRegisterDTO) {
+        Users user = lambdaQuery().eq(Users::getUsername, userRegisterDTO.getUsername()).one();
         if (user != null) {
             throw new UserExistException("用户名已存在");
         }
-        users.setCreatTime(LocalDateTime.now());
-        save(users);
+        user = Users.builder()
+                .username(userRegisterDTO.getUsername())
+                .password(userRegisterDTO.getPassword())
+                .creatTime(LocalDateTime.now()).build();
+        save(user);
     }
 
     @Override
-    public String login(Users loginUser) {
-        Users user = lambdaQuery().eq(Users::getUsername, loginUser.getUsername())
-                .eq(Users::getPassword, loginUser.getPassword()).one();
+    public String login(UserLoginDTO userLoginDTO) {
+        Users user = lambdaQuery().eq(Users::getUsername, userLoginDTO.getUsername())
+                .eq(Users::getPassword, userLoginDTO.getPassword()).one();
         if (user == null) {
             throw new UserLoginFailureException("用户登陆失败");
         }

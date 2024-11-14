@@ -83,6 +83,18 @@
             <artifactId>mybatis-plus-boot-starter</artifactId>
             <version>3.5.7</version>
         </dependency>
+        <!--swagger-->
+        <dependency>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>knife4j-openapi2-spring-boot-starter</artifactId>
+            <version>4.1.0</version>
+        </dependency>
+        <!--jaxb-api -->
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.3.1</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

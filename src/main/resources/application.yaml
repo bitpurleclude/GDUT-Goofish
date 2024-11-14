@@ -26,9 +26,21 @@ snowflake:
   worker-id: 1
   datacenter-id: 1
 mybatis-plus:
-  mapper-locations: classpath:*/mapper/**/*.xml
   type-aliases-package: org/gdutgoofish/goodfish/entity
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath*:/mapper/**/*.xml
 
 
+knife4j:
+  enable: true
+  openapi:
+    title: goo接口文档
+    description: "goo接口文档"
+    version: v1.0.0
+    group:
+      default:
+        group-name: default
+        api-rule: package
+        api-rule-resources:
+          - org.gdutgoodfish.goodfish.controller

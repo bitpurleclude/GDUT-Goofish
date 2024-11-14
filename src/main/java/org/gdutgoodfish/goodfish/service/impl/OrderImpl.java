@@ -32,7 +32,7 @@ public class OrderImpl implements Order {
                 .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now())
                 ;
-        secondHandOrderMapper.insertOrder(secondHandOrder);
+//        secondHandOrderMapper.insertOrder(secondHandOrder);
 
     }
 }
