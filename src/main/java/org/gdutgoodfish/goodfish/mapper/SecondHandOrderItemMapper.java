@@ -2,10 +2,9 @@ package org.gdutgoodfish.goodfish.mapper;
 
 import com.alipay.api.domain.OrderItem;
 import org.apache.ibatis.annotations.*;
-import org.gdutgoodfish.goodfish.entity.SecondHandOrderItem;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.gdutgoodfish.goodfish.pojo.entity.SecondHandOrderItem;
 
-@Mapper
+
 public interface SecondHandOrderItemMapper {
 
  /**

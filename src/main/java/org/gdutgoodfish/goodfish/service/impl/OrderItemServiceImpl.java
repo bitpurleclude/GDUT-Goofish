@@ -1,7 +1,7 @@
 package org.gdutgoodfish.goodfish.service.impl;
 
-import org.gdutgoodfish.goodfish.dto.OrderDTO;
-import org.gdutgoodfish.goodfish.entity.SecondHandOrderItem;
+import org.gdutgoodfish.goodfish.pojo.dto.OrderDTO;
+import org.gdutgoodfish.goodfish.pojo.entity.SecondHandOrderItem;
 import org.gdutgoodfish.goodfish.mapper.SecondHandOrderItemMapper;
 import org.gdutgoodfish.goodfish.service.OrderItemService;
 import org.springframework.beans.factory.annotation.Autowired;
