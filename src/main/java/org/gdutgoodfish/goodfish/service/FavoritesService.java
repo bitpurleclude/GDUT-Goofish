@@ -1,7 +1,7 @@
 package org.gdutgoodfish.goodfish.service;
 
-import org.gdutgoodfish.goodfish.dto.FavoritesAddDTO;
-import org.gdutgoodfish.goodfish.vo.FavoritesPageQueryVO;
+import org.gdutgoodfish.goodfish.pojo.dto.FavoritesAddDTO;
+import org.gdutgoodfish.goodfish.pojo.vo.FavoritesPageQueryVO;
 
 public interface FavoritesService {
     void addFavority(FavoritesAddDTO favoritesAddDTO);

@@ -1,8 +1,8 @@
 package org.gdutgoodfish.goodfish.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.gdutgoodfish.goodfish.entity.Result;
-import org.gdutgoodfish.goodfish.dto.ItemsDTO;
+import org.gdutgoodfish.goodfish.pojo.common.Result;
+import org.gdutgoodfish.goodfish.pojo.dto.ItemsDTO;
 import org.gdutgoodfish.goodfish.service.ItemsService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;

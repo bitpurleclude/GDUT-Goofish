@@ -4,7 +4,7 @@ import com.github.pagehelper.Page;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
-import org.gdutgoodfish.goodfish.entity.Items;
+import org.gdutgoodfish.goodfish.pojo.entity.Items;
 
 import java.util.List;
 

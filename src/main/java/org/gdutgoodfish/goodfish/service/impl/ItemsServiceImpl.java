@@ -1,8 +1,8 @@
 package org.gdutgoodfish.goodfish.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.gdutgoodfish.goodfish.entity.Items;
-import org.gdutgoodfish.goodfish.dto.ItemsDTO;
+import org.gdutgoodfish.goodfish.pojo.entity.Items;
+import org.gdutgoodfish.goodfish.pojo.dto.ItemsDTO;
 import org.gdutgoodfish.goodfish.mapper.ItemsMapper;
 import org.gdutgoodfish.goodfish.service.ItemsService;
 import org.gdutgoodfish.goodfish.util.FileUploadUtil;

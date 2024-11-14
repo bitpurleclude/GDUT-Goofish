@@ -3,13 +3,13 @@ package org.gdutgoodfish.goodfish.service.impl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import lombok.RequiredArgsConstructor;
-import org.gdutgoodfish.goodfish.entity.Favorites;
-import org.gdutgoodfish.goodfish.entity.Items;
-import org.gdutgoodfish.goodfish.dto.FavoritesAddDTO;
+import org.gdutgoodfish.goodfish.pojo.entity.Favorites;
+import org.gdutgoodfish.goodfish.pojo.entity.Items;
+import org.gdutgoodfish.goodfish.pojo.dto.FavoritesAddDTO;
 import org.gdutgoodfish.goodfish.mapper.FavoritesMapper;
 import org.gdutgoodfish.goodfish.mapper.ItemsMapper;
 import org.gdutgoodfish.goodfish.service.FavoritesService;
-import org.gdutgoodfish.goodfish.vo.FavoritesPageQueryVO;
+import org.gdutgoodfish.goodfish.pojo.vo.FavoritesPageQueryVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 

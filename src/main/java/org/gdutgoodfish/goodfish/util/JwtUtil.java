@@ -1,43 +1,102 @@
 package org.gdutgoodfish.goodfish.util;
 
+
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
 
 import javax.crypto.SecretKey;
-import java.util.Map;
+import javax.crypto.spec.SecretKeySpec;
+import java.util.Base64;
 import java.util.Date;
+import java.util.UUID;
 
 public class JwtUtil {
-    private static String signKey = "goodfish";
-    private static long expireTime = 43200000L; // 令牌存续时间为12小时
-    private static final SecretKey SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    //有效期为
+    public static final Long JWT_TTL = 24 * 60 * 60 * 1000L;// 60 * 60 *1000  一个小时
+    //设置秘钥明文
+    public static final String JWT_KEY = "goo_fish";
 
-    /**
-     * 生成令牌
-     * @param claims 令牌中的信息
-     * @return 生成的令牌
-     */
-    public static String generateJwt(Map<String, Object> claims) {
-        return Jwts.builder()
-                .setClaims(claims) // 设置令牌中的信息
-                .setIssuedAt(new Date(System.currentTimeMillis())) // 设置令牌的签发时间
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) // 设置令牌的过期时间（10小时）
-                .signWith(SECRET_KEY) // 使用生成的密钥进行签名
-                .compact();
+    public static String getUUID(){
+        return UUID.randomUUID().toString().replaceAll("-", "");
     }
 
     /**
-     * 解析令牌
-     * @param token 令牌
-     * @return 令牌中的信息
+     * 生成jtw
+     * @param subject token中要存放的数据（json格式）
+     * @return
      */
-    public static Claims phaseJwt(String token) {
-        return Jwts.parserBuilder()
-                .setSigningKey(SECRET_KEY) // 设置用于验证签名的密钥
-                .build()
-                .parseClaimsJws(token)
+    public static String createJWT(String subject) {
+        JwtBuilder builder = getJwtBuilder(subject, null, getUUID());// 设置过期时间
+        return builder.compact();
+    }
+
+    /**
+     * 生成jtw
+     * @param subject token中要存放的数据（json格式）
+     * @param ttlMillis token超时时间
+     * @return
+     */
+    public static String createJWT(String subject, Long ttlMillis) {
+        JwtBuilder builder = getJwtBuilder(subject, ttlMillis, getUUID());// 设置过期时间
+        return builder.compact();
+    }
+
+    private static JwtBuilder getJwtBuilder(String subject, Long ttlMillis, String uuid) {
+        SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
+        SecretKey secretKey = generalKey();
+        long nowMillis = System.currentTimeMillis();
+        Date now = new Date(nowMillis);
+        if(ttlMillis==null){
+            ttlMillis=JwtUtil.JWT_TTL;
+        }
+        long expMillis = nowMillis + ttlMillis;
+        Date expDate = new Date(expMillis);
+        return Jwts.builder()
+                .setId(uuid)              //唯一的ID
+                .setSubject(subject)   // 主题  可以是JSON数据
+                .setIssuer("goo")     // 签发者
+                .setIssuedAt(now)      // 签发时间
+                .signWith(signatureAlgorithm, secretKey) //使用HS256对称加密算法签名, 第二个参数为秘钥
+                .setExpiration(expDate);
+    }
+
+    /**
+     * 创建token
+     * @param id
+     * @param subject
+     * @param ttlMillis
+     * @return
+     */
+    public static String createJWT(String id, String subject, Long ttlMillis) {
+        JwtBuilder builder = getJwtBuilder(subject, ttlMillis, id);// 设置过期时间
+        return builder.compact();
+    }
+
+
+    /**
+     * 生成加密后的秘钥 secretKey
+     * @return
+     */
+    public static SecretKey generalKey() {
+        byte[] encodedKey = Base64.getDecoder().decode(JwtUtil.JWT_KEY);
+        SecretKey key = new SecretKeySpec(encodedKey, 0, encodedKey.length, "AES");
+        return key;
+    }
+
+    /**
+     * 解析
+     *
+     * @param jwt
+     * @return
+     * @throws Exception
+     */
+    public static Claims parseJWT(String jwt) {
+        SecretKey secretKey = generalKey();
+        return Jwts.parser()
+                .setSigningKey(secretKey)
+                .parseClaimsJws(jwt)
                 .getBody();
     }
 }

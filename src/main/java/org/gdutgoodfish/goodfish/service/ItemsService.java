@@ -1,6 +1,6 @@
 package org.gdutgoodfish.goodfish.service;
 
-import org.gdutgoodfish.goodfish.dto.ItemsDTO;
+import org.gdutgoodfish.goodfish.pojo.dto.ItemsDTO;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
