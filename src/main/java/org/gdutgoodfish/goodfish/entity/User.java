@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class User { // 用户实体类
-    private int userId;         // 用户ID或主键
+    private Long userId;         // 用户ID或主键
 
     private String username;     // 用户名
 

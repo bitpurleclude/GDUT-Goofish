@@ -66,7 +66,7 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
         //6.检查是否在黑名单中
         if (JwtUtil.isTokenBlacklisted(token)) {
             log.info("token已失效");
-            Result result = Result.error("token已失效");
+            Result result = Result.error("token expired");
 
             //手动转换为json字符串
             String notLogin = JSONObject.toJSONString(result);

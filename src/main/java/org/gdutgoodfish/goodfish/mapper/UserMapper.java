@@ -10,13 +10,14 @@ public interface UserMapper {
 
     @Insert("INSERT INTO users (username, password, email, profile_picture, join_date) " +
             "VALUES (#{username}, #{password}, #{email}, #{profilePicture}, #{joinDate})")
+    @Options(useGeneratedKeys = true, keyProperty = "userId")
     int insert(User user);
 
     @Select("SELECT * FROM users WHERE username = #{username}")
     User findByUsername(String username);
 
     @Select("SELECT * FROM users WHERE user_id = #{userId}")
-    User findById(Integer userId);
+    User findById(Long userId);
 
     @Select("SELECT * FROM users WHERE email = #{email}")
     User findByEmail(String email);

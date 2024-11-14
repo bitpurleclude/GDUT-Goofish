@@ -5,6 +5,7 @@ import org.gdutgoodfish.goodfish.mapper.UserMapper;
 import org.gdutgoodfish.goodfish.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
 
 
 @Service
@@ -14,37 +15,33 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
     @Override
-    public boolean register(User user) {
+    public User register(User user) {
         if (userMapper.findByUsername(user.getUsername()) != null) {
-            return false;
+            return null;
         }
-        return userMapper.insert(user) > 0;
+        userMapper.insert(user);
+        return user;
     }
 
     @Override
-    public User login(String identifier, String password) {
-        User user = userMapper.findByUsername(identifier);
+    public User login(String username_email, String password) {
+        User user = userMapper.findByUsername(username_email);
         if (user == null) {
-            user = userMapper.findByEmail(identifier);
+            user = userMapper.findByEmail(username_email);
         }
-        if (user != null && user.getPassword().equals(password)) {
+        if (user != null && user.getPassword().equals(DigestUtils.md5DigestAsHex(password.getBytes()))) {
             return user;
         }
         return null;
     }
 
-//    @Override
-//    public boolean logout(Integer userId) {
-//        return true; // 简单实现，实际逻辑可能需要处理会话
-//    }
-
     @Override
     public boolean resetPassword(String email, String newPassword) {
-        return userMapper.resetPasswordByEmail(email, newPassword) > 0;
+        return userMapper.resetPasswordByEmail(email, DigestUtils.md5DigestAsHex(newPassword.getBytes())) > 0;
     }
 
     @Override
-    public User getUserById(Integer userId) {
+    public User getUserById(Long userId) {
         return userMapper.findById(userId);
     }
 

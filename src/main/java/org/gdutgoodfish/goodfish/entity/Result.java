@@ -3,6 +3,8 @@ package org.gdutgoodfish.goodfish.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.gdutgoodfish.goodfish.dto.UserDTO;
+
 
 @Data
 @NoArgsConstructor
@@ -35,6 +37,13 @@ public class Result<T> {
         Result<T> result = new Result<T>();
         result.setCode(500);
         result.setMsg(msg);
+        return result;
+    }
+
+    public static <T> Result<UserDTO> success(UserDTO data) {
+        Result<UserDTO> result = new Result<UserDTO>();
+        result.setCode(200);
+        result.setData(data);
         return result;
     }
 }

@@ -1,47 +1,57 @@
 package org.gdutgoodfish.goodfish.controller;
 
-
-import io.jsonwebtoken.Claims;
-import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
+import org.gdutgoodfish.goodfish.dto.UserDTO;
 import org.gdutgoodfish.goodfish.entity.Result;
 import org.gdutgoodfish.goodfish.entity.User;
 import org.gdutgoodfish.goodfish.service.UserService;
 import org.gdutgoodfish.goodfish.util.JwtUtil;
+import org.springframework.util.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-
 
 @RestController
 @RequestMapping ("/api/v1/auth")
-@Slf4j
 public class UserController {
 
     @Autowired
     private UserService userService;
 
     @PostMapping("/register")
-    public Result<String> register(@RequestBody User user) {
-        if (userService.register(user)) {
-            return Result.success("用户注册成功");
+    public ResponseEntity<Result<UserDTO>> register(@RequestBody UserDTO userDTO) {
+        User user = new User();
+        user.setUserId(userDTO.getUser_id());
+        user.setUsername(userDTO.getUsername());
+        user.setPassword(DigestUtils.md5DigestAsHex(userDTO.getPassword().getBytes()));
+        user.setEmail(userDTO.getEmail());
+        user.setProfilePicture(userDTO.getProfilePicture());
+        user.setJoinDate(userDTO.getJoinDate());
+
+        User savedUser = userService.register(user);
+        if (savedUser != null) {
+            Map<String, Object> claims = new HashMap<>();
+            claims.put("userId", user.getUserId());
+            claims.put("username", user.getUsername());
+            claims.put("email", user.getEmail());
+            String jwt = JwtUtil.generateJwt(claims);
+
+            userDTO.setUser_id(savedUser.getUserId());
+            userDTO.setPassword(null);
+            userDTO.setToken(jwt);
+            return new ResponseEntity<>(Result.success(userDTO), HttpStatus.OK);
         } else {
-            return Result.error("用户名已存在");
+            return new ResponseEntity<>(Result.error("用户名已存在"), HttpStatus.OK);
         }
     }
 
     @PostMapping("/login")
-    public Result<User> login(@RequestBody Map<String, String> loginRequest) {
-        Iterator<Map.Entry<String, String>> iterator = loginRequest.entrySet().iterator();
-        Map.Entry<String, String> firstEntry = iterator.next();
-        String identifier = firstEntry.getValue(); // 第一个参数
-
-        Map.Entry<String, String> secondEntry = iterator.next();
-        String password = secondEntry.getValue(); // 第二个参数
-        User user = userService.login(identifier, password);
+    public ResponseEntity<Result<UserDTO>> login(@RequestBody UserDTO userDTO) {
+        String username_email = userDTO.getUsername_email();
+        String password = userDTO.getPassword();
+        User user = userService.login(username_email, password);
 
         // 登录成功，生成 token
         if (user != null) {
@@ -52,14 +62,17 @@ public class UserController {
 
             String jwt = JwtUtil.generateJwt(claims);
 
-            return Result.success(jwt);
+            userDTO.setUser_id(user.getUserId());
+            userDTO.setPassword(null);
+            userDTO.setToken(jwt);
+            return new ResponseEntity<>(Result.success(userDTO), HttpStatus.OK);
         } else {
-            return Result.error("用户名或邮箱错误或者密码错误");
+            return new ResponseEntity<>(Result.error("用户名或密码错误"), HttpStatus.OK);
         }
     }
 
     @PostMapping("/logout")
-    public Result<String> logout(@RequestHeader("token") String token) {
+    public Result<String> logout(@RequestHeader String token) {
         // 把要登出的 token 加入黑名单
         JwtUtil.addToken(token);
 
@@ -67,17 +80,14 @@ public class UserController {
     }
 
     @PostMapping("/password-reset")
-    public Result<String> resetPassword(@RequestBody Map<String, String> resetRequest) {
-        Iterator<Map.Entry<String, String>> iterator = resetRequest.entrySet().iterator();
-        Map.Entry<String, String> firstEntry = iterator.next();
-        String email = firstEntry.getValue(); // 第一个参数
+    public Result<String> resetPassword(@RequestBody UserDTO userDTO) {
+        String email = userDTO.getEmail();
+        String newpassword = userDTO.getNewpassword();
 
-        Map.Entry<String, String> secondEntry = iterator.next();
-        String newPassword = secondEntry.getValue(); // 第二个参数
-        if (newPassword == null || newPassword.isEmpty()) {
+        if (newpassword == null || newpassword.isEmpty()) {
             return Result.error("新密码不能为空");
         }
-        if (userService.resetPassword(email, newPassword)) {
+        if (userService.resetPassword(email, newpassword)) {
             return Result.success("密码重置成功");
         } else {
             return Result.error("邮箱不存在");
@@ -85,12 +95,19 @@ public class UserController {
     }
 
     @GetMapping("/users/{userId}")
-    public Result<User> getUserProfile(@PathVariable Integer userId) {
+    public ResponseEntity<Result<UserDTO>> getUserProfile(@PathVariable Long userId) {
         User user = userService.getUserById(userId);
         if (user != null) {
-            return Result.success(user);
+            UserDTO userDTO = new UserDTO();
+            userDTO.setUser_id(user.getUserId());
+            userDTO.setUsername(user.getUsername());
+            userDTO.setEmail(user.getEmail());
+            userDTO.setProfilePicture(user.getProfilePicture());
+            userDTO.setJoinDate(user.getJoinDate());
+
+            return new ResponseEntity<>(Result.success(userDTO), HttpStatus.OK);
         } else {
-            return Result.error("用户不存在");
+            return new ResponseEntity<>(Result.error("用户不存在"), HttpStatus.OK);
         }
     }
 
