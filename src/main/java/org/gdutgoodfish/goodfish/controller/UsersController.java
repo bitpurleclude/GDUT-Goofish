@@ -40,7 +40,7 @@ public class UsersController {
         String token = usersService.login(userLoginDTO);
         Map<String, String> map = new HashMap<>();
         map.put("token", token);
-        return Result.success(map);
+        return Result.success(map, "登陆成功");
     }
 
 
