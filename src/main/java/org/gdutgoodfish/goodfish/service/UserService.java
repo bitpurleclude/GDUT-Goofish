@@ -6,11 +6,13 @@ public interface UserService {
 
     User login(String identifier, String password);
 
-    boolean logout(Long userId);
+//    boolean logout(Integer userId);
 
     boolean resetPassword(String email, String newPassword);
 
-    User getUserById(Long userId);
+    User getUserById(Integer userId);
 
     boolean insertUser(User user);
+
+    User getUserByUsername(String username);
 }

@@ -62,7 +62,19 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
             response.getWriter().write(notLogin);
             return false;
         }
-        //6.放行
+
+        //6.检查是否在黑名单中
+        if (JwtUtil.isTokenBlacklisted(token)) {
+            log.info("token已失效");
+            Result result = Result.error("token已失效");
+
+            //手动转换为json字符串
+            String notLogin = JSONObject.toJSONString(result);
+            response.getWriter().write(notLogin);
+            return false;
+        }
+
+        //7.放行
         log.info("token验证通过");
         return true;
     }

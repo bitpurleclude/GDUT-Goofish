@@ -46,7 +46,7 @@ public class UserController {
         // 登录成功，生成 token
         if (user != null) {
             Map<String, Object> claims = new HashMap<>();
-            claims.put("userId", user.getId());
+            claims.put("userId", user.getUserId());
             claims.put("username", user.getUsername());
             claims.put("email", user.getEmail());
 
@@ -58,11 +58,11 @@ public class UserController {
         }
     }
 
-
     @PostMapping("/logout")
-    public Result<String> logout(@RequestBody Map<String, Long> logoutRequest) {
-        Long userId = logoutRequest.get("userId");
-        // 执行登出逻辑
+    public Result<String> logout(@RequestHeader("token") String token) {
+        // 把要登出的 token 加入黑名单
+        JwtUtil.addToken(token);
+
         return Result.success("登出成功");
     }
 
@@ -85,7 +85,7 @@ public class UserController {
     }
 
     @GetMapping("/users/{userId}")
-    public Result<User> getUserProfile(@PathVariable Long userId) {
+    public Result<User> getUserProfile(@PathVariable Integer userId) {
         User user = userService.getUserById(userId);
         if (user != null) {
             return Result.success(user);

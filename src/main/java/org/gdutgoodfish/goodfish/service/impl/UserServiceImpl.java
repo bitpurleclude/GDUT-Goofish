@@ -33,10 +33,10 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
-    @Override
-    public boolean logout(Long userId) {
-        return true; // 简单实现，实际逻辑可能需要处理会话
-    }
+//    @Override
+//    public boolean logout(Integer userId) {
+//        return true; // 简单实现，实际逻辑可能需要处理会话
+//    }
 
     @Override
     public boolean resetPassword(String email, String newPassword) {
@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserById(Long userId) {
+    public User getUserById(Integer userId) {
         return userMapper.findById(userId);
     }
 
@@ -52,5 +52,10 @@ public class UserServiceImpl implements UserService {
     public boolean insertUser(User user) {
         int result = userMapper.insert(user);
         return result > 0;
+    }
+
+    @Override
+    public User getUserByUsername(String username) {
+        return userMapper.findByUsername(username);
     }
 }

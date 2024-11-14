@@ -15,13 +15,12 @@ public interface UserMapper {
     @Select("SELECT * FROM users WHERE username = #{username}")
     User findByUsername(String username);
 
-    @Select("SELECT * FROM users WHERE userId = #{userId}")
-    User findById(Long userId);
+    @Select("SELECT * FROM users WHERE user_id = #{userId}")
+    User findById(Integer userId);
 
     @Select("SELECT * FROM users WHERE email = #{email}")
     User findByEmail(String email);
 
     @Update("UPDATE users SET password = #{newPassword} WHERE email = #{email}")
     int resetPasswordByEmail(@Param("email") String email, @Param("newPassword") String newPassword);
-
 }

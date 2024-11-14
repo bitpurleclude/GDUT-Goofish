@@ -6,14 +6,18 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 
 import javax.crypto.SecretKey;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Date;
+import java.util.Set;
 
 public class JwtUtil {
-    private static String signKey = "goodfish";
+    private static String signKey = "goodfish"; // 生成令牌的签名密钥
     private static long expireTime = 43200000L; // 令牌存续时间为12小时
-    private static final SecretKey SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    private static final SecretKey SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256); // 生成密钥
 
+
+    private static Set<String> blacklist = new HashSet<>(); // 令牌黑名单
     /**
      * 生成令牌
      * @param claims 令牌中的信息
@@ -40,4 +44,22 @@ public class JwtUtil {
                 .parseClaimsJws(token)
                 .getBody();
     }
+
+    /**
+     * 将令牌加入黑名单
+     * @param token 令牌
+     */
+    public static void addToken(String token) {
+        blacklist.add(token);
+    }
+
+    /**
+     * 判断令牌是否在黑名单中
+     * @param token 令牌
+     * @return 令牌是否在黑名单中
+     */
+    public static boolean isTokenBlacklisted(String token) {
+        return blacklist.contains(token);
+    }
+
 }
