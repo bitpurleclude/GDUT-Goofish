@@ -7,7 +7,9 @@ import org.gdutgoodfish.goodfish.pojo.common.Result;
 import org.gdutgoodfish.goodfish.pojo.common.UserContext;
 import org.gdutgoodfish.goodfish.pojo.dto.UserResetPasswordDTO;
 import org.gdutgoodfish.goodfish.pojo.entity.Users;
+import org.gdutgoodfish.goodfish.pojo.vo.UserVO;
 import org.gdutgoodfish.goodfish.service.IUsersService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -54,9 +56,12 @@ public class UsersController {
     }
 
     @GetMapping
-    public Result<Users> getUserProfile() {
+    public Result<UserVO> getUserProfile() {
+        log.info("get user profile");
         Users user = usersService.getById(UserContext.getCurrentId());
-        return Result.success(user);
+        UserVO userVO = new UserVO();
+        BeanUtils.copyProperties(user, userVO);
+        return Result.success(userVO);
     }
 
 }
