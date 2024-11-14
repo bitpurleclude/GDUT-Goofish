@@ -15,6 +15,7 @@ import org.gdutgoodfish.goodfish.service.IUsersService;
 import org.gdutgoodfish.goodfish.util.JwtUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.DigestUtils;
 
 import java.time.LocalDateTime;
 
@@ -29,17 +30,19 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
         if (user != null) {
             throw new UserExistException("用户名已存在");
         }
+        String password = DigestUtils.md5DigestAsHex(userRegisterDTO.getPassword().getBytes());
         user = Users.builder()
                 .username(userRegisterDTO.getUsername())
-                .password(userRegisterDTO.getPassword())
+                .password(password)
                 .creatTime(LocalDateTime.now()).build();
         save(user);
     }
 
     @Override
     public String login(UserLoginDTO userLoginDTO) {
+        String password = DigestUtils.md5DigestAsHex(userLoginDTO.getPassword().getBytes());
         Users user = lambdaQuery().eq(Users::getUsername, userLoginDTO.getUsername())
-                .eq(Users::getPassword, userLoginDTO.getPassword()).one();
+                .eq(Users::getPassword, password).one();
         if (user == null) {
             throw new UserLoginFailureException("用户登陆失败");
         }
