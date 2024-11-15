@@ -1,6 +1,8 @@
 package org.gdutgoodfish.goodfish.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.gdutgoodfish.goodfish.mapper.MessageMapper;
 import org.gdutgoodfish.goodfish.pojo.common.UserContext;
@@ -10,6 +12,8 @@ import org.gdutgoodfish.goodfish.service.IMessageService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>
@@ -32,10 +36,43 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
         Integer isRead = 0;
         message.setSendId(sendId);
         message.setCreateTime(createTime);
-        message.setIsRead(isRead);
+        message.setRead(isRead);
         // 存入message并返回结果
         return this.save(message);
     }
 
+    @Override
+    public boolean deleteAllMessage(Long receiveId) {
+        // 获得userId（sendId）
+        Long sendId = UserContext.getCurrentId();
+        // 封装queryWrapper
+        QueryWrapper<Message> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("send_id", sendId);
+        queryWrapper.eq("receive_id", receiveId);
+        // 删除消息并返回结果
+        return this.remove(queryWrapper);
+    }
 
+    @Override
+    public List<Message> getAllMessage(Long receiveId) {
+        // 构造queryWrapper
+        QueryWrapper<Message> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("receive_id", receiveId);
+        // 查询聊天记录
+        List<Message> messageList = this.list(queryWrapper);
+        // 检查查询结果
+        if (messageList == null || messageList.isEmpty()) {
+            return new ArrayList<>();
+        }
+        // 将read设置为1
+        UpdateWrapper updateWrapper = new UpdateWrapper<>();
+        updateWrapper.eq("receive_id", receiveId);
+        updateWrapper.set("`read`", 1);
+        this.update(updateWrapper);
+        // 返回结果
+        for (Message message : messageList) {
+            message.setRead(1);
+        }
+        return messageList;
+    }
 }
