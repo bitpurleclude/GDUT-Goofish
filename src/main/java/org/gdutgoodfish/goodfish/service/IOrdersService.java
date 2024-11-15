@@ -25,4 +25,8 @@ public interface IOrdersService extends IService<Orders> {
     void finishOrder(OrderIdDTO orderIdDTO);
 
     void cancelOrder(OrderIdDTO orderIdDTO);
+
+    String payOrder(Long orderId);
+
+    void payOrderSuccess(String number);
 }
