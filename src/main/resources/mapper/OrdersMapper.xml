@@ -2,4 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.gdutgoodfish.goodfish.mapper.OrdersMapper">
 
+    <select id="selectOrderByUserId" resultType="org.gdutgoodfish.goodfish.pojo.vo.OrderVO">
+        select o.*, u.username sell_user from orders o left join users u on o.user_id = u.id
+        <where>
+            <if test="userId != null"> and o.user_id = #{userId}</if>
+            <if test="status != null"> and o.status = #{status}</if>
+        </where>
+    </select>
 </mapper>

@@ -1,7 +1,12 @@
 package org.gdutgoodfish.goodfish.service;
 
+import org.gdutgoodfish.goodfish.pojo.dto.OrderAddDTO;
+import org.gdutgoodfish.goodfish.pojo.dto.OrderIdDTO;
 import org.gdutgoodfish.goodfish.pojo.entity.Orders;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.gdutgoodfish.goodfish.pojo.vo.OrderVO;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +18,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IOrdersService extends IService<Orders> {
 
+    void addOrder(OrderAddDTO orderAddDTO);
+
+    List<OrderVO> getUserOrder(Integer status);
+
+    void finishOrder(OrderIdDTO orderIdDTO);
+
+    void cancelOrder(OrderIdDTO orderIdDTO);
 }
