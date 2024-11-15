@@ -43,7 +43,7 @@ public class OrdersController {
     }
 
     @PutMapping("/finish")
-    public Result<String> updateOrder(@RequestBody OrderIdDTO orderIdDTO) {
+    public Result<String> finishOrder(@RequestBody OrderIdDTO orderIdDTO) {
         log.info("用户完成订单 : {}", orderIdDTO);
         ordersService.finishOrder(orderIdDTO);
         return Result.success("订单已完成");
