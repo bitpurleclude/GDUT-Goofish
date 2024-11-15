@@ -1,5 +1,6 @@
 package org.gdutgoodfish.goodfish.service;
 
+import org.gdutgoodfish.goodfish.pojo.dto.MessageAddDTO;
 import org.gdutgoodfish.goodfish.pojo.entity.Message;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -13,4 +14,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IMessageService extends IService<Message> {
 
+    boolean addMessage(MessageAddDTO messageAddDTO);
 }
