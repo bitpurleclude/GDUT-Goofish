@@ -2,4 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.gdutgoodfish.goodfish.mapper.ItemMapper">
 
+    <select id="pageQuery" resultType="org.gdutgoodfish.goodfish.pojo.vo.ItemVO">
+        select i.*, c.category_name, u.username from item i
+        left join category c on i.category_id = c.id
+        left join users u on i.user_id = u.id
+        <where>
+            <if test="dto.itemName != null"> and i.name like concat('%', #{dto.itemName}, '%')</if>
+            <if test="dto.categoryId != null"> and i.category_id = #{dto.categoryId}</if>
+            <if test="dto.minPrice != null"> and i.price &gt; #{dto.minPrice}</if>
+            <if test="dto.maxPrice != null"> and i.price &lt; #{dto.maxPrice}</if>
+            <if test="dto.location != null"> and i.location &gt; #{dto.location}</if>
+        </where>
+
+    </select>
 </mapper>
