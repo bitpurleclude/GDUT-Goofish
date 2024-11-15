@@ -23,6 +23,7 @@ public class ItemVO {
     /**
      * 用户id
      */
+    private String userId;
     private String username;
 
     /**
