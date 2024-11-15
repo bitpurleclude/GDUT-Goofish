@@ -18,6 +18,7 @@ import Message from '@/pages/Message'
 import My from '@/pages/My'
 import Sell from '@/pages/Sell'
 import Login from '@/pages/Login'
+import Register from '@/pages/Register'
 
 Vue.use(Router)
 
@@ -100,7 +101,11 @@ export default new Router({
           component: Auction
         }
       ]
+    },
+    {
+      path: '/register',
+      component: Register
     }
-    
+
   ]
 })
