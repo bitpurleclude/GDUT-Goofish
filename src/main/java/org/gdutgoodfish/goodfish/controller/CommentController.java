@@ -45,10 +45,48 @@ public class CommentController {
         }
     }
 
-    @DeleteMapping("/delete/")
-    public Result deleteComment() {
-
+    /**
+     * 删除评价
+     * @param commentId
+     * @return
+     */
+    @DeleteMapping("/deleteById/{commentId}")
+    public Result deleteById(@PathVariable("commentId") Long commentId) {
+        // 校验参数
+        if (commentId == null) {
+            return Result.error("参数未传递");
+        }
+        // 删除，获取删除结果
+        boolean success = commentService.removeById(commentId);
+        // 根据结果返回对应msg
+        if(success) {
+            return Result.success("删除成功");
+        } else {
+            return Result.error("删除失败");
+        }
     }
+
+    /**
+     * 获取评价详情
+     * @param commentId
+     * @return
+     */
+    @GetMapping("/getById/{commentId}")
+    public Result<Comment> getById(@PathVariable("commentId") Long commentId) {
+        // 校验参数
+        if (commentId == null) {
+            return Result.error("参数未传递");
+        }
+        // 获取评价
+        Comment comment = commentService.getById(commentId);
+        // 根据结果返回对应msg
+        if(comment != null) {
+            return Result.success(comment);
+        } else {
+            return Result.error("获取评论失败");
+        }
+    }
+
 
     /**
      * 分页查询用户评价
