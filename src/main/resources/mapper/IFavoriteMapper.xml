@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.gdutgoodfish.goodfish.mapper.FavoriteMapper">
+
+    <select id="pageQuery" resultType="org.gdutgoodfish.goodfish.pojo.vo.ItemVO">
+        select i.*, c.category_name, u.username from item i
+            left join category c on i.category_id = c.id
+            left join users u on i.user_id = u.id
+            where i.id in
+            <foreach collection="itemIds" item="id" open="(" separator="," close=")">
+                #{id}
+            </foreach>
+    </select>
+</mapper>
