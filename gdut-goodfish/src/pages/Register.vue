@@ -4,7 +4,7 @@
       <div class="back" @click="goBack">
         <img src="../assets/images/返回.png" alt="">
       </div>
-      <div class="title">账户登录</div>
+      <div class="title">账户注册</div>
     </div>
     <div class="loginform">
       <div class="avatar" @click="addPic">
@@ -22,11 +22,15 @@
           <label for="password" class="label">密码</label>
           <input type="password" id="password" placeholder="请输入密码" name="password" v-model="password">
         </div>
-        <div class="button">
-          <div class="login" @click="gologin">登录</div>
+        <div class="inputbox border-1px">
+          <label for="password1" class="label">重复密码</label>
+          <input type="password" id="password1" placeholder="请重复你的密码" name="password1" v-model="password1">
         </div>
-        <div class="reg">
-          <router-link to="/register" class="lanse">注册</router-link>
+        <div class="button">
+          <div class="login" @click="gologin">注册</div>
+        </div>
+        <div class="log">
+          <router-link to="/login" class="lanse">登录</router-link>
         </div>
       </form>
     </div>
@@ -41,7 +45,8 @@ export default {
     return {
       url: '../../../static/avatar.jpg',
       username: '',
-      password: ''
+      password: '',
+      password1: ''
     }
   },
   computed: {
@@ -78,6 +83,10 @@ export default {
         this.$toast('请输入密码')
       }else if(this.password.length<=9) {
         this.$toast('密码不能低于9位哦！')
+      }else if(this.password1 == '') {
+        this.$toast('请重复密码')
+      }else if(this.password1 != this.password) {
+        this.$toast('两次密码不一致')
       }else {
         window.localStorage.setItem('username',this.username)
         window.localStorage.setItem('password',this.password)
@@ -89,7 +98,7 @@ export default {
         this.$store.dispatch('setUsername', this.username)
         this.$store.dispatch('setUserinfo', obj)
         this.$toast({
-          message: '登录成功',
+          message: '注册成功',
           duration: 500
         })
         setTimeout(()=> {
@@ -194,3 +203,4 @@ export default {
     right: 0.5rem;
   }
 </style>
+
