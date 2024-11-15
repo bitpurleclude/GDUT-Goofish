@@ -7,6 +7,7 @@ import org.gdutgoodfish.goodfish.pojo.common.Result;
 import org.gdutgoodfish.goodfish.pojo.common.UserContext;
 import org.gdutgoodfish.goodfish.pojo.dto.ItemAddDTO;
 import org.gdutgoodfish.goodfish.pojo.dto.ItemPageQueryDTO;
+import org.gdutgoodfish.goodfish.pojo.dto.ItemUpdateDTO;
 import org.gdutgoodfish.goodfish.pojo.entity.Item;
 import org.gdutgoodfish.goodfish.pojo.vo.ItemVO;
 import org.gdutgoodfish.goodfish.pojo.vo.PageQueryVO;
@@ -59,12 +60,21 @@ public class ItemController {
     }
 
     @GetMapping("/pageQuery")
-    public Result<PageQueryVO<ItemVO>> getItemPageQuery(@RequestBody ItemPageQueryDTO itemPageQueryDTO) {
+    public Result<PageQueryVO<ItemVO>> getItemPageQuery(ItemPageQueryDTO itemPageQueryDTO) {
         log.info("商品分页条件查询 {}", itemPageQueryDTO);
         PageQueryVO<ItemVO> pageVO = itemService.pageQuery(itemPageQueryDTO);
         return Result.success(pageVO);
     }
 
+
+    @PutMapping("/update")
+    public Result<ItemVO> updateItem(@RequestBody ItemUpdateDTO itemUpdateDTO) {
+        log.info("更新商品: {}", itemUpdateDTO);
+        Item item = new Item();
+        BeanUtils.copyProperties(itemUpdateDTO, item);
+        itemService.updateById(item);
+        return Result.success("商品更新成功");
+    }
 
 
 
