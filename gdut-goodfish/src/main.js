@@ -11,22 +11,12 @@ import { Toast } from 'mint-ui'
 import VueLazyload from 'vue-lazyload'
 import './common/stylus/index.styl'
 import store from './store'
-import axios from 'axios'; // 确保导入 axios
 
 Vue.use(VueLazyload)
 Vue.use(Mint);
 Vue.$toast = Vue.prototype.$toast = Toast;
 Vue.config.productionTip = false
-// 配置 Axios 拦截器
-const token = localStorage.getItem('jwt');
-if (token) {
-  axios.interceptors.request.use(config => {
-    config.headers.Authorization = `Bearer ${token}`;
-    return config;
-  }, error => {
-    return Promise.reject(error);
-  });
-}
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

@@ -16,7 +16,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 /**
  * <p>
@@ -78,12 +77,6 @@ public class ItemController {
     }
 
 
-    @GetMapping
-    public Result<List<ItemVO>> getItems() {
-        log.info("用户获取自己的商品");
-        List<ItemVO> vos = itemService.getUserItems();
-        return Result.success(vos);
-    }
 
 
 }

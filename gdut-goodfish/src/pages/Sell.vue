@@ -65,8 +65,7 @@
 import util from '../assets/utils/utils.js'
 import {MessageBox} from 'mint-ui'
 import lrz from 'lrz'
-import {getCategory, ERR_OK, newItem} from '../api/data.js'
-import {Data} from '../api/data.js'
+import { getCategory, ERR_OK} from '../api/data.js'
 export default {
   data() {
     return {
@@ -89,11 +88,11 @@ export default {
       let sendPrice = this.$refs.price.sendPrice
       if(this.title == '') {
         this.$toast('请输入发布的标题')
-        return
+        return 
       }
       if(this.desc == '') {
         this.$toast('描述一下宝贝吧')
-        return
+        return 
       }
       if(this.imgUrls == '') {
         MessageBox.alert('上传几张宝贝图片吧~~如果无法上传，请确定是否开启拍照权限，如果仍无效果，请移步其他浏览器')
@@ -105,7 +104,7 @@ export default {
       }
       if(oldPrice == '') {
         this.$toast('请输入原价')
-        return
+        return 
       }
       if(sendPrice == '') {
         this.$toast('邮费不能为空')
@@ -115,33 +114,23 @@ export default {
         this.$toast('请选择商品类型')
         return
       }
-      let item = {}
-      item.title= this.title
-      item.description = this.desc
-      item.price = newPrice
-      newItem(item).then(res=> {
-        if(res.status === ERR_OK) {
-          console.log(res)
-        }else {
-          MessageBox.alert('发布成功，去看看吧！').then(action => {
-            let obj = {}
-            obj.title = this.title
-            obj.desc = this.desc
-            obj.imgUrls = this.imgUrls
-            obj.newPrice = newPrice
-            obj.oldPrice = oldPrice
-            obj.sendPrice = sendPrice
-            obj.del = true
-            obj.kind = this.kind
-            obj.time = util.formatDate.format(new Date(),'yyyy-MM-dd hh:mm')
-            this.$store.dispatch('setFabunum')
-            this.$store.dispatch('setFabuinfo',obj)
-            this.$router.push('/my')
-            this.$store.dispatch('setCurIndex',4)
-            console.log(obj)
-          });
-        }
-      })
+      MessageBox.alert('发布成功，去看看吧！').then(action => {
+          let obj = {}
+          obj.title = this.title
+          obj.desc = this.desc
+          obj.imgUrls = this.imgUrls
+          obj.newPrice = newPrice
+          obj.oldPrice = oldPrice
+          obj.sendPrice = sendPrice
+          obj.del = true
+          obj.kind = this.kind
+          obj.time = util.formatDate.format(new Date(),'yyyy-MM-dd hh:mm')
+          this.$store.dispatch('setFabunum')
+          this.$store.dispatch('setFabuinfo',obj)
+          this.$router.push('/my')
+          this.$store.dispatch('setCurIndex',4)
+          console.log(obj)
+        });
     },
     selectItem(item) {
       this.kind = item.name
@@ -163,12 +152,12 @@ export default {
     },
     fileInput(e) {
       let files = e.target.files
-      if(!files.length) return
+      if(!files.length) return 
       this.createImage(files, e)
     },
     createImage(files, e) {
       lrz(files[0], { width: 480 }).then(rst=> {
-
+        
         this.imgUrls.push(rst.base64)
         console.log(this.imgUrls)
       }).catch(err=> {
@@ -213,9 +202,9 @@ export default {
     .inputdetail
       width 100%
       border-1px(#f8f8f8)
-      input
-        border none
-        outline none
+      input 
+        border none 
+        outline none 
         width 100%
         height 1.3rem
         padding-left 0.3rem
@@ -241,7 +230,7 @@ export default {
         color #888888
     .list-ul
       width 100%
-      height auto
+      height auto 
       padding .3rem .3rem
       background-color #f8f8f8
       box-sizing border-box
@@ -254,7 +243,7 @@ export default {
         height 1.3rem
         position relative
         margin-bottom 0.4rem
-        img
+        img 
           width 1.3rem
           height 1.3rem
         .cancelimg
@@ -278,7 +267,7 @@ export default {
           border 1px solid #333333
           background url('../assets/images/加.png') no-repeat
           background-size 1rem 1rem
-          background-position center
+          background-position center 
 
   .goodinfo
     width 100%
@@ -318,8 +307,8 @@ export default {
     .fabu
       width 100%
       height 100%
-      outline none
-      border none
+      outline none 
+      border none 
       color #ffffff
       background-color red
   .category
@@ -336,7 +325,7 @@ export default {
     .wrapper
       width 100%
       height 22rem
-      overflow-y scroll
+      overflow-y scroll 
       .item
         width 100%
         padding-left 0.3rem
@@ -346,7 +335,7 @@ export default {
         line-height 1.5rem
         font-size 0.3rem
         color #333333
-
+        
 
 
 .head
@@ -363,7 +352,7 @@ export default {
     top .4rem
     width 1rem
     height 1rem
-    img
+    img 
       width .8rem
       height .8rem
   .title
