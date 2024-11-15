@@ -1,9 +1,15 @@
 package org.gdutgoodfish.goodfish.controller;
 
 
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import lombok.extern.slf4j.Slf4j;
+import org.gdutgoodfish.goodfish.pojo.common.Result;
+import org.gdutgoodfish.goodfish.pojo.dto.CommentAddDTO;
+import org.gdutgoodfish.goodfish.pojo.dto.CommentPageQueryDTO;
+import org.gdutgoodfish.goodfish.pojo.entity.Comment;
+import org.gdutgoodfish.goodfish.pojo.vo.PageQueryVO;
+import org.gdutgoodfish.goodfish.service.ICommentService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
@@ -15,6 +21,45 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/comment")
+@Slf4j
 public class CommentController {
+
+    @Autowired
+    ICommentService commentService;
+
+    /**
+     * 发布评价
+     * @param commentAddDTO
+     * @return
+     */
+    @PostMapping("/add")
+    public Result addComment(@RequestBody CommentAddDTO commentAddDTO) {
+        if (commentAddDTO == null) {
+            return Result.error("参数未传递");
+        }
+        boolean success = commentService.addComment(commentAddDTO);
+        if (success) {
+            return Result.success("发布成功");
+        } else {
+            return Result.error("发布失败");
+        }
+    }
+
+    @DeleteMapping("/delete/")
+    public Result deleteComment() {
+
+    }
+
+    /**
+     * 分页查询用户评价
+     * @param commentPageQueryDTO
+     * @return
+     */
+    @GetMapping("/pageQuery")
+    public Result<PageQueryVO<Comment>> CommentPageQuery(CommentPageQueryDTO commentPageQueryDTO) {
+        log.info("用户评价分页条件查询 {}", commentPageQueryDTO);
+        PageQueryVO<Comment> page = commentService.pageQuery(commentPageQueryDTO);
+        return Result.success(page);
+    }
 
 }
