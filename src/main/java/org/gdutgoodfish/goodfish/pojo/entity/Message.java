@@ -46,8 +46,6 @@ public class Message implements Serializable {
     private LocalDateTime createTime;
 
     @ApiModelProperty(value = "是否读 0-未读 1-已读")
-    @TableField("is_read")
-    private Integer isRead;
-
-
+    @TableField(value = "`read`")
+    private Integer read;
 }

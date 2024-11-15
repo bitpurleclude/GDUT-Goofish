@@ -99,5 +99,4 @@ public class CommentController {
         PageQueryVO<Comment> page = commentService.pageQuery(commentPageQueryDTO);
         return Result.success(page);
     }
-
 }
