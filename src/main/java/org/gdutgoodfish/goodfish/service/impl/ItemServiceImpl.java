@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.extension.toolkit.Db;
 import lombok.RequiredArgsConstructor;
 import org.gdutgoodfish.goodfish.mapper.ItemMapper;
+import org.gdutgoodfish.goodfish.pojo.common.UserContext;
 import org.gdutgoodfish.goodfish.pojo.dto.ItemPageQueryDTO;
 import org.gdutgoodfish.goodfish.pojo.entity.Item;
 import org.gdutgoodfish.goodfish.pojo.entity.Category;
@@ -16,6 +17,8 @@ import org.gdutgoodfish.goodfish.pojo.vo.PageQueryVO;
 import org.gdutgoodfish.goodfish.service.IItemService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * <p>
@@ -48,5 +51,10 @@ public class ItemServiceImpl extends ServiceImpl<ItemMapper, Item> implements II
     public PageQueryVO<ItemVO> pageQuery(ItemPageQueryDTO itemPageQueryDTO) {
         IPage<ItemVO> iPage = baseMapper.pageQuery(Page.of(itemPageQueryDTO.getPage(), itemPageQueryDTO.getPageSize()), itemPageQueryDTO);
         return new PageQueryVO<>(iPage.getTotal(), iPage.getRecords());
+    }
+
+    @Override
+    public List<ItemVO> getUserItems() {
+        return baseMapper.selectUserItems(UserContext.getCurrentId());
     }
 }

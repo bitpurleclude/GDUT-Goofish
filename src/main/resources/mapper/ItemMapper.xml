@@ -11,8 +11,14 @@
             <if test="dto.categoryId != null"> and i.category_id = #{dto.categoryId}</if>
             <if test="dto.minPrice != null"> and i.price &gt; #{dto.minPrice}</if>
             <if test="dto.maxPrice != null"> and i.price &lt; #{dto.maxPrice}</if>
-            <if test="dto.location != null"> and i.location &gt; #{dto.location}</if>
+            <if test="dto.location != null"> and i.location = #{dto.location}</if>
         </where>
 
+    </select>
+    <select id="selectUserItems" resultType="org.gdutgoodfish.goodfish.pojo.vo.ItemVO">
+        select i.*, c.category_name, u.username from item i
+        left join category c on i.category_id = c.id
+        left join users u on i.user_id = u.id
+        where i.user_id = #{userId}
     </select>
 </mapper>

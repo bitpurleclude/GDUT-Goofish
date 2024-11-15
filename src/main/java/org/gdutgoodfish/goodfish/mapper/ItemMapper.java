@@ -7,6 +7,8 @@ import org.gdutgoodfish.goodfish.pojo.entity.Item;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.gdutgoodfish.goodfish.pojo.vo.ItemVO;
 
+import java.util.List;
+
 /**
  * <p>
  *  Mapper 接口
@@ -19,4 +21,5 @@ public interface ItemMapper extends BaseMapper<Item> {
 
     IPage<ItemVO> pageQuery(IPage<ItemVO> page, @Param("dto") ItemPageQueryDTO dto);
 
+    List<ItemVO> selectUserItems(Long userId);
 }

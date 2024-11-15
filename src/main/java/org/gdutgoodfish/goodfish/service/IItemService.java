@@ -9,6 +9,7 @@ import org.gdutgoodfish.goodfish.pojo.vo.PageQueryVO;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * <p>
@@ -22,5 +23,7 @@ public interface IItemService extends IService<Item> {
     ItemVO getItem(Long itemId);
 
     PageQueryVO<ItemVO> pageQuery(ItemPageQueryDTO itemPageQueryDTO);
+
+    List<ItemVO> getUserItems();
 
 }
