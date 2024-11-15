@@ -36,7 +36,7 @@
 
 <script>
 import lrz from 'lrz'
-import {mapGetters} from 'vuex';
+import {mapGetters, mapMutations} from 'vuex';
 import {Login} from "../api/Login";
 
 export default {
@@ -48,11 +48,15 @@ export default {
     }
   },
   computed: {
+
     ...mapGetters([
       'login'
     ])
   },
   methods: {
+    ...mapMutations([
+      'hasLogin'
+    ]),
     goBack() {
       this.$router.back(-1)
     },
@@ -90,11 +94,14 @@ export default {
         };
 
         Login(obj).then(response => {
+          console.log(response);
           if (response.status === 200) {
+            console.log('进入函数');
             const jwt = response.data;
             localStorage.setItem('jwt', jwt); // 存储 JWT
             this.$store.dispatch('setUsername', this.username);
             this.$store.dispatch('setUserinfo', obj);
+            this.hasLogin();
             this.$toast({
               message: '登录成功',
               duration: 500

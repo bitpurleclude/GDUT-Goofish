@@ -5,18 +5,18 @@
         <div class="header">
           <img :src="list.avatar" alt="">
           <div class="info">
-            <p class="title">{{list.name}}</p>
-            <p class="time">{{list.time}}</p>
+            <p class="title">{{list.categoryName}}</p>
+            <p class="time">{{list.createTime}}</p>
           </div>
           <div class="price">
             <span>{{list.price}}</span>
           </div>
         </div>
         <div class="imgbox">
-          <img :src="list.img" alt="">
+          <img :src="list.image" alt="">
         </div>
         <div class="detail border-1px">
-          <p class="desc">{{list.desc}}</p>
+          <p class="desc">{{list.description}}</p>
         </div>
         <div class="footer">
           <div class="addr">{{list.add}}</div>
@@ -48,7 +48,7 @@
       </div>
       <div class="swiper-pagination"></div>
     </div>
-    
+
   </div>
 </template>
 
@@ -58,12 +58,38 @@ import 'swiper/dist/css/swiper.min.css'
 export default {
   data() {
     return {
-      
+
     }
   },
   props: {
     news: {
-      type: Array
+      type: Array,
+      default: () => ([
+        {
+          "id": 1,
+          "name": "小米",
+          "price": 599.99,
+          "userId": "1",
+          "username": "jack",
+          "image": "http://......",
+          "description": "二手机",
+          "categoryName": "手机",
+          "location": "北京",
+          "createTime": "2024-11-14T22:36:51"
+        },
+        {
+          "id": 3,
+          "name": "华为",
+          "price": 699.99,
+          "userId": "1",
+          "username": "jack",
+          "image": "http",
+          "description": "二手机",
+          "categoryName": "手机",
+          "location": "广州",
+          "createTime": "2024-11-15T12:12:02"
+        },
+      ]),
     },
     recoms: {
       type: Array
@@ -82,7 +108,7 @@ export default {
         }
       })
     })
-    
+
   },
   methods: {
     details(index) {
@@ -91,7 +117,7 @@ export default {
       this.$router.push({
         path: '/details'
       })
-      
+
     }
   }
 }
@@ -109,7 +135,7 @@ export default {
       .header
         height 1.02rem
         display flex
-        img 
+        img
           height 1rem
           width 1rem
           border-radius 50%
@@ -139,7 +165,7 @@ export default {
           margin-right 0.3rem
       .imgbox
         margin-top 0.1rem
-        img 
+        img
           width 6rem
           height 6rem
       .detail
@@ -161,9 +187,9 @@ export default {
           color #888888
     .swiper
       width 10rem
-      margin 0 auto 
+      margin 0 auto
       .item
-        height auto 
+        height auto
         padding 0.4rem 1rem
         font-weight 700
         box-sizing border-box
@@ -193,7 +219,7 @@ export default {
           justify-content space-between
           padding-bottom 0.4rem
           border-1px(#ddd)
-          img 
+          img
             width 1.6rem
             height 1.6rem
         .addr
