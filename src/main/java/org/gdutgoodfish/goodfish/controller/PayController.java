@@ -28,6 +28,7 @@ public class PayController {
     public void paySuccess(HttpServletRequest request) {
         log.info("支付成功回调 {}", JSONObject.toJSONString(request.getParameterMap()));
         String number = request.getParameter("out_trade_no");
+        log.info("支付成功订单号：{}", number);
         ordersService.payOrderSuccess(number);
     }
 
