@@ -121,6 +121,6 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
 
     @Override
     public void payOrderSuccess(String number) {
-        lambdaUpdate().set(Orders::getStatus, 1).eq(Orders::getNumber, number);
+        lambdaUpdate().set(Orders::getStatus, 1).eq(Orders::getNumber, number).update();
     }
 }
