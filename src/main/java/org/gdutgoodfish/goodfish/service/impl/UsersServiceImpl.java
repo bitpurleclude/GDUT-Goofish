@@ -64,8 +64,9 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
         if (users == null) {
             throw new UserResetPasswordException("原密码错误");
         }
+        String password = DigestUtils.md5DigestAsHex(userResetPasswordDTO.getNewPassword().getBytes());
         lambdaUpdate().eq(Users::getId, users.getId())
-                .set(Users::getPassword, userResetPasswordDTO.getNewPassword())
+                .set(Users::getPassword, password)
                 .update();
     }
 

@@ -73,7 +73,9 @@ public class UsersController {
         Users user = new Users();
         BeanUtils.copyProperties(userUpdateDTO, user);
         user.setId(UserContext.getCurrentId());
-        usersService.lambdaUpdate().update(user);
+        usersService.lambdaUpdate()
+                .eq(Users::getId, user.getId())
+                .update(user);
         return  Result.success("更新成功");
     }
 

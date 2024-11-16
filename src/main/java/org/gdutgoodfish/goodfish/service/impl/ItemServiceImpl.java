@@ -43,7 +43,9 @@ public class ItemServiceImpl extends ServiceImpl<ItemMapper, Item> implements II
         ItemVO itemVO = new ItemVO();
         BeanUtils.copyProperties(item, itemVO);
         itemVO.setUsername(users.getUsername());
+        itemVO.setUserId(userId);
         itemVO.setCategoryName(category.getCategoryName());
+        itemVO.setCategoryId(categoryId);
         return itemVO;
     }
 

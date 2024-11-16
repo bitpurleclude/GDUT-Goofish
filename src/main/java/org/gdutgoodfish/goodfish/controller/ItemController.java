@@ -1,6 +1,7 @@
 package org.gdutgoodfish.goodfish.controller;
 
 
+import com.baomidou.mybatisplus.extension.toolkit.Db;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.gdutgoodfish.goodfish.pojo.common.Result;
@@ -9,6 +10,7 @@ import org.gdutgoodfish.goodfish.pojo.dto.ItemAddDTO;
 import org.gdutgoodfish.goodfish.pojo.dto.ItemPageQueryDTO;
 import org.gdutgoodfish.goodfish.pojo.dto.ItemUpdateDTO;
 import org.gdutgoodfish.goodfish.pojo.entity.Item;
+import org.gdutgoodfish.goodfish.pojo.entity.Users;
 import org.gdutgoodfish.goodfish.pojo.vo.ItemVO;
 import org.gdutgoodfish.goodfish.pojo.vo.PageQueryVO;
 import org.gdutgoodfish.goodfish.service.IItemService;
@@ -35,10 +37,10 @@ public class ItemController {
     private final IItemService itemService;
 
 
-    @DeleteMapping("/{itemId}")
-    public Result<String> deleteItem(@PathVariable("itemId") Integer itemId) {
-        log.info("删除商品: {}", itemId);
-        itemService.removeById(itemId);
+    @DeleteMapping
+    public Result<String> deleteItem(@RequestParam("ids") List<Long> ids) {
+        log.info("删除商品: {}", ids);
+        itemService.removeByIds(ids);
         return Result.success("商品删除成功");
     }
 
@@ -73,6 +75,7 @@ public class ItemController {
         log.info("更新商品: {}", itemUpdateDTO);
         Item item = new Item();
         BeanUtils.copyProperties(itemUpdateDTO, item);
+        log.info("{}", item);
         itemService.updateById(item);
         return Result.success("商品更新成功");
     }

@@ -23,7 +23,7 @@ public class ItemVO {
     /**
      * 用户id
      */
-    private String userId;
+    private Long userId;
     private String username;
 
     /**
@@ -39,6 +39,7 @@ public class ItemVO {
     /**
      * 分类id
      */
+    private Long categoryId;
     private String categoryName;
 
     /**

@@ -32,7 +32,7 @@ public class ItemUpdateDTO {
     /**
      * 分类id
      */
-    private String categoryId;
+    private Long categoryId;
 
     /**
      * 位置

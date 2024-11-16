@@ -43,3 +43,8 @@ alipay:
   signType: RSA2
   gatewayUrl: https://openapi-sandbox.dl.alipaydev.com/gateway.do
 
+#aliyunoss:
+#  access-key-id:
+#  access-key-secret:
+#  bucket-name: bucket-list-01
+#  endpoint: oss-cn-beijing.aliyuncs.com
