@@ -6,12 +6,25 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/goo?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8
     username: root
-    password: 123456
+    password: 18340zhq
     driver-class-name: com.mysql.cj.jdbc.Driver
   servlet:
     multipart:
       max-file-size: 10MB
       max-request-size: 10MB
+alipay:
+  app_id: 9021000141693865
+  privateKey: MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCIwGyOguEb8ZcbcMi/W3Cd+SQu30tmNaF3XeulS+TfGogStD3hp6U7C1nOQvufeYGNEAFJBVJjDZP85ZAx5Dh9R+PIZG0N5AP7SoF9oMUin3bpBAimMMutG2enFghzD9bV9rnRbozJk/oYnj1YBYuluTiK7ZdbrGCGX+sb/5ay4Y36abTyjnZxPNPooj50cMy15IbEYEw7w2DBieqdPGCSndTb8GVsRLXFZ5fPN9yvXjvxmR5FKaPEwOncqvOTzHT1Mnmd3Nch3lQm3AvdU62+2vP4CjjgDMM6AX174moZhRL6VnL2FKGTiTZMONoBND3UNvsiuhM4c46KBDHHyVs3AgMBAAECggEAcecsxGr5CyhoPz/qxZBpNft9itkMWV7UVbNSAoU7ZiUYL9QXMuxLMOncbHPYV9WB9bfeCi83ly+JEv025Id+EcOeU5xqRUalllpRjw0pBhSim6VzetFr5IzOAhrVANmxjNgLoAiflYr+piCvYbCEx42GLhmFl6L1Zxdfoht6LxV+KasQF7zsC0EtbkU6IBlnwems4rvnYqmHjZ8NqEqakyJDiAM3JH4ZUeG7KE7Gk91r0eBJwPqDJLgnumByaq7t2/cIujJMB21MwOgaWwVw6t4+eZkJdVetK3V+KYauQGrOufI4yQcPKMIQXvzgtYHgQ5Xqio3GcrSQd9m+i42b0QKBgQDBergL9ScwEKazdOwQSHEhAWBKEZ3Ruf+WCMr2+DV+hZoRVxU/qOKFCgVLPjul58S35uABg3oiHpfssdLrjUQZqm45tLBcPZA5rsuv2s+aTA84hSrOTU5MPw+Thxk2B7rCTWIbOlupwdh3n31OonjnvbRP+6volyBbdzI5u5tUyQKBgQC08P4suLP6G1wdqzsLTBoyWfSKAJxXQYjD+iHlH57m+fAArnljgo5MZtKZlNhe5JUYRkOISXBYGyd4198t9KiJA1ZcUM2kg8YxedsnIKOjav75wyeDAU3zRuzlyqYw0HiU0HX8285QoUWzTnecJfDS9viPJwj7/P2zHIbpggcv/wKBgQCokk+Au5vlGNzlRl3W4gcPBq/qWOb0L+YrxoVwIFobXjQaH5F34aFa4Jw0Loixx/lxcUqChxcGWzlrFJP8fxxycDeRN4jhFRJv74ewNCjk+pfYWs4s6NXrQJZFp1Oj66AgYmOz7WinwyjjMKZwuMY2wuYzOcdR4zph9rxf6MExYQKBgHCnNmjbmlpWXHSwXjN7bzf4H7MoDC6bQ65Ydm/zzvgZlp6mAje9WiEhR2+NZ2U1Rcp2PKeGqaaBSYMITBCNqbycUlFpkY8i5+t35cUnoholjJguM9RxpHmZp/atw+jScrCcVUlYBMzYi8/GQ9v5F0YRs9FUyVgyPDYexbRuW1E7AoGAbXfDl8Dz7fgnN8wx6EiQeva0H3aPcB1g6XvXGxqtQmwApUzUCa3XE+UY0Xc4VPO2fensQ8dp+xBU7vQVbcNF48l7XX5RhmegGk10zy4rtYB5BLjeccY7Sz+IN6fBKp0VPXTeqsW49LfbM+3tzSunN0Pjb0JPN/Y73etwZw+hzCA=
+  publicKey: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAiMBsjoLhG/GXG3DIv1twnfkkLt9LZjWhd13rpUvk3xqIErQ94aelOwtZzkL7n3mBjRABSQVSYw2T/OWQMeQ4fUfjyGRtDeQD+0qBfaDFIp926QQIpjDLrRtnpxYIcw/W1fa50W6MyZP6GJ49WAWLpbk4iu2XW6xghl/rG/+WsuGN+mm08o52cTzT6KI+dHDMteSGxGBMO8NgwYnqnTxgkp3U2/BlbES1xWeXzzfcr1478ZkeRSmjxMDp3Krzk8x09TJ5ndzXId5UJtwL3VOtvtrz+Ao44AzDOgF9e+JqGYUS+lZy9hShk4k2TDjaATQ91Db7IroTOHOOigQxx8lbNwIDAQAB
+  notify_url: http://yiwbtt.natappfree.cc/api/v1/Order/alipay/notify
+  return_url: http://localhost:8080/paySuccess.html
+  sign_type: RSA2
+  charset: utf-8
+  gatewayUrl: https://openapi-sandbox.dl.alipaydev.com/gateway.do
+  logPath: "D:\\code\\java\\gdut-goodfish\\log"
+snowflake:
+  worker-id: 1
+  datacenter-id: 1
 mybatis-plus:
   type-aliases-package: org/gdutgoofish/goodfish/entity
   configuration:
@@ -19,6 +32,7 @@ mybatis-plus:
   mapper-locations: classpath*:/mapper/**/*.xml
   # 启用分页插件
   pagination-interceptor: true
+
 
 knife4j:
   enable: true
@@ -48,3 +62,4 @@ alipay:
 #  access-key-secret:
 #  bucket-name: bucket-list-01
 #  endpoint: oss-cn-beijing.aliyuncs.com
+

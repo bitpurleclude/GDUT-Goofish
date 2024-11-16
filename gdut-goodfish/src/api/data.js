@@ -1,5 +1,5 @@
 import axios from 'axios'
-export const HOST = '/api'
+export const HOST = 'https://www.easy-mock.com/mock/5b596a1c2d340a0cf1673504/fallowfish'
 
 export const ERR_OK = 200;
 
@@ -9,7 +9,7 @@ export function getSearchresult() {
 }
 
 export function getCategory() {
-  const url = HOST + '/api/v1/items/search'
+  const url = HOST + '/category'
   return axios.get(url)
 }
 
@@ -65,9 +65,4 @@ export function getChina() {
 export function getLists() {
   const url = HOST + '/lists'
   return axios.get(url)
-}
-
-export function newItem() {
-  const url = HOST + '/api/v1/items'
-  return axios.post(url)
 }
