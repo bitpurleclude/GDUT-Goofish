@@ -5,6 +5,7 @@ import org.gdutgoodfish.goodfish.pojo.dto.OrderIdDTO;
 import org.gdutgoodfish.goodfish.pojo.entity.Orders;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.gdutgoodfish.goodfish.pojo.vo.OrderVO;
+import org.gdutgoodfish.goodfish.pojo.vo.PageQueryVO;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ public interface IOrdersService extends IService<Orders> {
 
     void addOrder(OrderAddDTO orderAddDTO);
 
-    List<OrderVO> getUserOrder(Integer status);
+    PageQueryVO<OrderVO> getUserOrder(Long page, Integer status);
 
     void finishOrder(OrderIdDTO orderIdDTO);
 

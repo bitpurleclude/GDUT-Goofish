@@ -7,6 +7,7 @@ import org.gdutgoodfish.goodfish.pojo.common.Result;
 import org.gdutgoodfish.goodfish.pojo.dto.OrderAddDTO;
 import org.gdutgoodfish.goodfish.pojo.dto.OrderIdDTO;
 import org.gdutgoodfish.goodfish.pojo.vo.OrderVO;
+import org.gdutgoodfish.goodfish.pojo.vo.PageQueryVO;
 import org.gdutgoodfish.goodfish.service.IOrdersService;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,10 +37,10 @@ public class OrdersController {
     }
 
     @GetMapping
-    public Result<List<OrderVO>> getAllOrders(Integer status) {
+    public Result<PageQueryVO<OrderVO>> getAllOrders(Long page, Integer status) {
         log.info("用户查询订单");
-        List<OrderVO> vos = ordersService.getUserOrder(status);
-        return Result.success(vos);
+        PageQueryVO<OrderVO> userOrder = ordersService.getUserOrder(page, status);
+        return Result.success(userOrder);
     }
 
     @PutMapping("/finish")
