@@ -4,6 +4,7 @@ import org.gdutgoodfish.goodfish.pojo.dto.FavoritesAddDTO;
 import org.gdutgoodfish.goodfish.pojo.entity.Favorite;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.gdutgoodfish.goodfish.pojo.entity.Item;
+import org.gdutgoodfish.goodfish.pojo.vo.FavoriteVO;
 import org.gdutgoodfish.goodfish.pojo.vo.ItemVO;
 import org.gdutgoodfish.goodfish.pojo.vo.PageQueryVO;
 
@@ -18,7 +19,7 @@ import org.gdutgoodfish.goodfish.pojo.vo.PageQueryVO;
 public interface IFavoriteService extends IService<Favorite> {
     void addFavorite(FavoritesAddDTO favoritesAddDTO);
 
-    PageQueryVO<ItemVO> pageQuery(int page, int perSize);
+    PageQueryVO<FavoriteVO> pageQuery(int page, int perSize);
 
 
 }

@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.gdutgoodfish.goodfish.pojo.common.Result;
 import org.gdutgoodfish.goodfish.pojo.dto.FavoritesAddDTO;
 import org.gdutgoodfish.goodfish.pojo.entity.Item;
+import org.gdutgoodfish.goodfish.pojo.vo.FavoriteVO;
 import org.gdutgoodfish.goodfish.pojo.vo.ItemVO;
 import org.gdutgoodfish.goodfish.pojo.vo.PageQueryVO;
 import org.gdutgoodfish.goodfish.service.IFavoriteService;
@@ -35,10 +36,10 @@ public class FavoriteController {
     }
 
     @GetMapping
-    public Result<PageQueryVO<ItemVO>> pageQueryFavorite(@RequestParam("page") int page,
-                                                         @RequestParam("perSize") int perSize) {
+    public Result<PageQueryVO<FavoriteVO>> pageQueryFavorite(@RequestParam("page") int page,
+                                                             @RequestParam("perSize") int perSize) {
         log.info("收藏分页查询{} {}", page, perSize);
-        PageQueryVO<ItemVO> favoritesPageQueryVO = favoriteService.pageQuery(page, perSize);
+        PageQueryVO<FavoriteVO> favoritesPageQueryVO = favoriteService.pageQuery(page, perSize);
         return Result.success(favoritesPageQueryVO);
     }
 
