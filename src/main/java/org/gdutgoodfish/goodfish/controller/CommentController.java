@@ -11,6 +11,8 @@ import org.gdutgoodfish.goodfish.service.ICommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * <p>
  * 评价表 前端控制器
@@ -79,6 +81,22 @@ public class CommentController {
         }
         // 获取评价
         Comment comment = commentService.getById(commentId);
+        // 根据结果返回对应msg
+        if(comment != null) {
+            return Result.success(comment);
+        } else {
+            return Result.error("获取评论失败");
+        }
+    }
+
+    @GetMapping("/getByItemId")
+    public Result<List<Comment>> getByItemId(@RequestParam("itemId") Long itemId) {
+        // 校验参数
+        if (itemId == null) {
+            return Result.error("参数未传递");
+        }
+        // 获取评价
+        List<Comment> comment = commentService.getByItemId(itemId);
         // 根据结果返回对应msg
         if(comment != null) {
             return Result.success(comment);

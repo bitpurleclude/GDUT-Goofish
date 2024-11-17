@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>
@@ -71,5 +72,16 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         //返回结果
         PageQueryVO<Comment> pageQueryVO = new PageQueryVO<>(page.getTotal(), page.getRecords());
         return pageQueryVO;
+    }
+
+    @Override
+    public List<Comment> getByItemId(Long itemId) {
+        // 构建queryWrapper
+        QueryWrapper<Comment> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("item_id", itemId);
+        // 查询得到Comment
+        List<Comment> commentList = this.list(queryWrapper);
+        // 返回
+        return commentList;
     }
 }
