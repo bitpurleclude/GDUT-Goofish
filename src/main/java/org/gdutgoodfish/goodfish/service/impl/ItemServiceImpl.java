@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.extension.toolkit.Db;
 import lombok.RequiredArgsConstructor;
+import org.gdutgoodfish.goodfish.exception.ItemException.ItemNotExistException;
 import org.gdutgoodfish.goodfish.mapper.ItemMapper;
 import org.gdutgoodfish.goodfish.pojo.common.UserContext;
 import org.gdutgoodfish.goodfish.pojo.dto.ItemPageQueryDTO;
@@ -36,6 +37,9 @@ public class ItemServiceImpl extends ServiceImpl<ItemMapper, Item> implements II
     @Override
     public ItemVO getItem(Long itemId) {
         Item item = getById(itemId);
+        if (item == null) {
+            throw new ItemNotExistException("商品不存在");
+        }
         Long userId = item.getUserId();
         Users users = Db.lambdaQuery(Users.class).eq(Users::getId, userId).one();
         Long categoryId = item.getCategoryId();
