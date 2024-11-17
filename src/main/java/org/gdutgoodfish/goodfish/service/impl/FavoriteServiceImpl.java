@@ -8,9 +8,11 @@ import org.gdutgoodfish.goodfish.mapper.FavoriteMapper;
 import org.gdutgoodfish.goodfish.pojo.common.UserContext;
 import org.gdutgoodfish.goodfish.pojo.dto.FavoritesAddDTO;
 import org.gdutgoodfish.goodfish.pojo.entity.Favorite;
+import org.gdutgoodfish.goodfish.pojo.vo.FavoriteVO;
 import org.gdutgoodfish.goodfish.pojo.vo.ItemVO;
 import org.gdutgoodfish.goodfish.pojo.vo.PageQueryVO;
 import org.gdutgoodfish.goodfish.service.IFavoriteService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -38,10 +40,13 @@ public class FavoriteServiceImpl extends ServiceImpl<FavoriteMapper, Favorite> i
     }
 
     @Override
-    public PageQueryVO<ItemVO> pageQuery(int page, int perSize) {
+    public PageQueryVO<FavoriteVO> pageQuery(int page, int perSize) {
         List<Favorite> favorites = lambdaQuery().eq(Favorite::getUserId, UserContext.getCurrentId()).list();
         List<Long> itemIds = favorites.stream().map(Favorite::getItemId).toList();
-        IPage<ItemVO> iPage = baseMapper.pageQuery(Page.of(page, perSize), itemIds);
+        if (itemIds.isEmpty()) {
+            return new PageQueryVO<>();
+        }
+        IPage<FavoriteVO> iPage = baseMapper.pageQuery(Page.of(page, perSize), UserContext.getCurrentId());
         return new PageQueryVO<>(iPage.getTotal(), iPage.getRecords());
     }
 

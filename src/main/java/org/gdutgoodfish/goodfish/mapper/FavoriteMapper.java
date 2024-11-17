@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.apache.ibatis.annotations.Param;
 import org.gdutgoodfish.goodfish.pojo.entity.Favorite;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.gdutgoodfish.goodfish.pojo.vo.FavoriteVO;
 import org.gdutgoodfish.goodfish.pojo.vo.ItemVO;
 
 import java.util.List;
@@ -19,6 +20,6 @@ import java.util.List;
  */
 public interface FavoriteMapper extends BaseMapper<Favorite> {
 
-    IPage<ItemVO> pageQuery(IPage<ItemVO> page, @Param("itemIds") List<Long> itemIds);
+    IPage<FavoriteVO> pageQuery(IPage<ItemVO> page, @Param("userId") Long userId);
 
 }
