@@ -9,7 +9,12 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = BaseException.class)
-    public Result userExistEX(Exception e) {
+    public Result<String> userExistEX(Exception e) {
         return Result.error(e.getMessage());
+    }
+
+    @ExceptionHandler(value = Exception.class)
+    public Result<String> unkownException(Exception e) {
+        return Result.error("发生未知错误");
     }
 }
