@@ -1,5 +1,6 @@
 package org.gdutgoodfish.goodfish.mapper;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.swagger.models.auth.In;
 import org.gdutgoodfish.goodfish.pojo.entity.Orders;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
@@ -17,5 +18,5 @@ import java.util.List;
  */
 public interface OrdersMapper extends BaseMapper<Orders> {
 
-    List<OrderVO> selectOrderByUserId(Long userId, Integer status);
+    IPage<OrderVO> selectOrderByUserId(IPage<OrderVO> ipage, Long userId, Integer status);
 }

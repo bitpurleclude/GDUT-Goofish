@@ -1,6 +1,8 @@
 package org.gdutgoodfish.goodfish.service.impl;
 
 import com.alipay.api.AlipayApiException;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.Db;
 import lombok.RequiredArgsConstructor;
 import org.gdutgoodfish.goodfish.exception.ItemException.ItemNotExistException;
@@ -14,7 +16,9 @@ import org.gdutgoodfish.goodfish.pojo.dto.OrderIdDTO;
 import org.gdutgoodfish.goodfish.pojo.entity.Item;
 import org.gdutgoodfish.goodfish.pojo.entity.Orders;
 import org.gdutgoodfish.goodfish.mapper.OrdersMapper;
+import org.gdutgoodfish.goodfish.pojo.vo.ItemVO;
 import org.gdutgoodfish.goodfish.pojo.vo.OrderVO;
+import org.gdutgoodfish.goodfish.pojo.vo.PageQueryVO;
 import org.gdutgoodfish.goodfish.service.IOrdersService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.gdutgoodfish.goodfish.util.AlipayUtil;
@@ -60,8 +64,10 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
     }
 
     @Override
-    public List<OrderVO> getUserOrder(Integer status) {
-        return baseMapper.selectOrderByUserId(UserContext.getCurrentId(), status);
+    public PageQueryVO<OrderVO> getUserOrder(Long page, Integer status) {
+        IPage<OrderVO> iPage = Page.of(page, 10L);
+        baseMapper.selectOrderByUserId(iPage, UserContext.getCurrentId(), status);
+        return new PageQueryVO<>(iPage.getTotal(), iPage.getRecords());
     }
 
     @Override
