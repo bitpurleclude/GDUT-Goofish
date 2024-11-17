@@ -11,13 +11,18 @@ import org.gdutgoodfish.goodfish.pojo.common.UserContext;
 import org.gdutgoodfish.goodfish.pojo.dto.CommentAddDTO;
 import org.gdutgoodfish.goodfish.pojo.dto.CommentPageQueryDTO;
 import org.gdutgoodfish.goodfish.pojo.entity.Comment;
+import org.gdutgoodfish.goodfish.pojo.entity.Users;
+import org.gdutgoodfish.goodfish.pojo.vo.CommentVO;
 import org.gdutgoodfish.goodfish.pojo.vo.PageQueryVO;
 import org.gdutgoodfish.goodfish.service.ICommentService;
+import org.gdutgoodfish.goodfish.service.IUsersService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -30,6 +35,8 @@ import java.util.List;
 @Service
 public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> implements ICommentService {
 
+    @Autowired
+    IUsersService usersService;
     @Override
     public boolean addComment(CommentAddDTO commentAddDTO) {
         // 获取传入的信息
@@ -44,7 +51,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     }
 
     @Override
-    public PageQueryVO<Comment> pageQuery(CommentPageQueryDTO commentPageQueryDTO) {
+    public PageQueryVO<CommentVO> pageQuery(CommentPageQueryDTO commentPageQueryDTO) {
         // 如果没传分页条件，用默认条件
         if (commentPageQueryDTO.getPage() == null) {
             commentPageQueryDTO.setPage(PageConstant.DEFAULT_PAGE);
@@ -70,8 +77,24 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
             return new PageQueryVO<>(0L, new ArrayList<>());
         }
         //返回结果
-        PageQueryVO<Comment> pageQueryVO = new PageQueryVO<>(page.getTotal(), page.getRecords());
+        List<Comment> commentList = page.getRecords();
+        List<CommentVO> commentVOList = commentList.stream().map(comment -> {
+            // 不为空，复制到commentVO
+            CommentVO commentVO = new CommentVO();
+            BeanUtil.copyProperties(comment, commentVO);
+            getUserName(comment, commentVO);
+            return commentVO;
+        }).collect(Collectors.toList());
+        PageQueryVO<CommentVO> pageQueryVO = new PageQueryVO<>(page.getTotal(), commentVOList);
         return pageQueryVO;
+    }
+
+    private void getUserName(Comment comment, CommentVO commentVO) {
+        // 获取用户
+        Users user = usersService.getById(comment.getUserId());
+        // 如果用户为空，将userName设置为用户已注销，否则设置userName
+        commentVO.setUserName("用户已注销");
+        commentVO.setUserName(user.getUsername());
     }
 
     @Override

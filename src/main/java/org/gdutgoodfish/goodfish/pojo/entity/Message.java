@@ -48,6 +48,4 @@ public class Message implements Serializable {
     @ApiModelProperty(value = "是否读")
     @TableField("`read`")
     private Integer read;
-
-
 }

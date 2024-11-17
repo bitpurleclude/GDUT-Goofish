@@ -4,6 +4,7 @@ import org.gdutgoodfish.goodfish.pojo.dto.CommentAddDTO;
 import org.gdutgoodfish.goodfish.pojo.dto.CommentPageQueryDTO;
 import org.gdutgoodfish.goodfish.pojo.entity.Comment;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.gdutgoodfish.goodfish.pojo.vo.CommentVO;
 import org.gdutgoodfish.goodfish.pojo.vo.PageQueryVO;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public interface ICommentService extends IService<Comment> {
 
     boolean addComment(CommentAddDTO commentAddDTO);
 
-    PageQueryVO<Comment> pageQuery(CommentPageQueryDTO commentPageQueryDTO);
+    PageQueryVO<CommentVO> pageQuery(CommentPageQueryDTO commentPageQueryDTO);
 
     List<Comment> getByItemId(Long itemId);
 }

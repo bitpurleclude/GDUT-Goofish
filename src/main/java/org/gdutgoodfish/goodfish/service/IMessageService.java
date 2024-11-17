@@ -3,6 +3,7 @@ package org.gdutgoodfish.goodfish.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.gdutgoodfish.goodfish.pojo.dto.MessageAddDTO;
 import org.gdutgoodfish.goodfish.pojo.entity.Message;
+import org.gdutgoodfish.goodfish.pojo.vo.MessageVO;
 
 import java.util.List;
 
@@ -20,5 +21,5 @@ public interface IMessageService extends IService<Message> {
 
     boolean deleteAllMessage(Long receiveId);
 
-    List<Message> getAllMessage(Long receiveId);
+    List<MessageVO> getAllMessage(Long receiveId);
 }

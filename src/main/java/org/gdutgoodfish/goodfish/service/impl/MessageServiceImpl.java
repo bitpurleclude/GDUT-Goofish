@@ -8,12 +8,17 @@ import org.gdutgoodfish.goodfish.mapper.MessageMapper;
 import org.gdutgoodfish.goodfish.pojo.common.UserContext;
 import org.gdutgoodfish.goodfish.pojo.dto.MessageAddDTO;
 import org.gdutgoodfish.goodfish.pojo.entity.Message;
+import org.gdutgoodfish.goodfish.pojo.vo.MessageVO;
 import org.gdutgoodfish.goodfish.service.IMessageService;
+import org.gdutgoodfish.goodfish.service.IUsersService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -25,6 +30,10 @@ import java.util.List;
  */
 @Service
 public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> implements IMessageService {
+
+    @Lazy
+    @Autowired
+    IUsersService usersService;
 
     @Override
     public boolean addMessage(MessageAddDTO messageAddDTO) {
@@ -53,7 +62,7 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
     }
 
     @Override
-    public List<Message> getAllMessage(Long receiveId) {
+    public List<MessageVO> getAllMessage(Long receiveId) {
         // 构造queryWrapper
         Long sendId = UserContext.getCurrentId();
         QueryWrapper<Message> queryWrapper = new QueryWrapper<>();
@@ -73,10 +82,21 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
         updateWrapper.eq("receive_id", receiveId);
         updateWrapper.set("`read`", 1);
         this.update(updateWrapper);
+        // 将messageList转化为messageVOList
+        List<MessageVO> messageVOList = messageList.stream().map(message -> {
+            MessageVO messageVO = new MessageVO();
+            BeanUtil.copyProperties(message, messageVO);
+            setSendReceiveName(message, messageVO);
+            return messageVO;
+        }).collect(Collectors.toList());
         // 返回结果
-        for (Message message : messageList) {
-            message.setRead(1);
-        }
-        return messageList;
+        return messageVOList;
+    }
+
+    private void setSendReceiveName(Message message, MessageVO messageVO) {
+        String sendUserName = usersService.getById(message.getSendId()).getUsername();
+        String receiveUserName = usersService.getById(message.getReceiveId()).getUsername();
+        messageVO.setSendUserName(sendUserName);
+        messageVO.setReceiveUserName(receiveUserName);
     }
 }

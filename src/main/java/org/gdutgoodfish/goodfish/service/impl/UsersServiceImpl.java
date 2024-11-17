@@ -19,6 +19,7 @@ import org.gdutgoodfish.goodfish.service.IMessageService;
 import org.gdutgoodfish.goodfish.service.IUsersService;
 import org.gdutgoodfish.goodfish.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
@@ -34,6 +35,7 @@ import java.util.stream.Collectors;
 @Service
 public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements IUsersService {
 
+    @Lazy
     @Autowired
     IMessageService messageService;
 

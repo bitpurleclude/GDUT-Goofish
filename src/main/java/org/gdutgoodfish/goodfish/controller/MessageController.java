@@ -1,11 +1,13 @@
 package org.gdutgoodfish.goodfish.controller;
 
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.gdutgoodfish.goodfish.pojo.common.Result;
 import org.gdutgoodfish.goodfish.pojo.dto.MessageAddDTO;
 import org.gdutgoodfish.goodfish.pojo.entity.Message;
+import org.gdutgoodfish.goodfish.pojo.vo.MessageVO;
 import org.gdutgoodfish.goodfish.pojo.vo.UserVO;
 import org.gdutgoodfish.goodfish.service.IMessageService;
 import org.gdutgoodfish.goodfish.service.IUsersService;
@@ -99,13 +101,16 @@ public class MessageController {
      * @return
      */
     @GetMapping("/getById/{messageId}")
-    public Result<Message> getById(@PathVariable("messageId") Long messageId) {
+    public Result<MessageVO> getById(@PathVariable("messageId") Long messageId) {
         // 校验参数
         if (messageId == null) {
             return Result.error("参数未传递");
         }
         // 获取message
         Message message = messageService.getById(messageId);
+        MessageVO messageVO = new MessageVO();
+        BeanUtil.copyProperties(message, messageVO);
+        setSendReceiveName(message, messageVO);
         // 根据结果返回对应msg
         if(message != null) {
             // 标记已读
@@ -115,10 +120,17 @@ public class MessageController {
             messageService.update(updateWrapper);
             message.setRead(1);
             // 返回结果
-            return Result.success(message);
+            return Result.success(messageVO);
         } else {
             return Result.error("获取消息失败");
         }
+    }
+
+    private void setSendReceiveName(Message message, MessageVO messageVO) {
+        String sendUserName = usersService.getById(message.getSendId()).getUsername();
+        String receiveUserName = usersService.getById(message.getReceiveId()).getUsername();
+        messageVO.setSendUserName(sendUserName);
+        messageVO.setReceiveUserName(receiveUserName);
     }
 
     /**
@@ -127,15 +139,15 @@ public class MessageController {
      * @return
      */
     @GetMapping("/getAllMessage")
-    public Result<List<Message>> getAllMessage(@RequestParam("receiveId") Long receiveId) {
+    public Result<List<MessageVO>> getAllMessage(@RequestParam("receiveId") Long receiveId) {
         log.info("查询与receiveId为{}的全部聊天记录", receiveId);
         // 如果传入参数为空，返回错误
         if (receiveId == null) {
             return Result.error("传入参数为空");
         }
         // 查询
-        List<Message> messageList = messageService.getAllMessage(receiveId);
-        return Result.success(messageList);
+        List<MessageVO> messageVOList = messageService.getAllMessage(receiveId);
+        return Result.success(messageVOList);
     }
 
     /**
