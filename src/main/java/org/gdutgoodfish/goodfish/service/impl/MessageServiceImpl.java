@@ -47,8 +47,7 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
         Long sendId = UserContext.getCurrentId();
         // 封装queryWrapper
         QueryWrapper<Message> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("send_id", sendId);
-        queryWrapper.eq("receive_id", receiveId);
+        queryWrapper.eq("send_id", sendId).or().eq("receive_id", sendId);
         // 删除消息并返回结果
         return this.remove(queryWrapper);
     }
@@ -56,8 +55,13 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
     @Override
     public List<Message> getAllMessage(Long receiveId) {
         // 构造queryWrapper
+        Long sendId = UserContext.getCurrentId();
         QueryWrapper<Message> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("receive_id", receiveId);
+        queryWrapper.eq("send_id", sendId)
+                .eq("receive_id", receiveId)
+                .or()
+                .eq("send_id", receiveId)
+                .eq("receive_id", sendId);
         // 查询聊天记录
         List<Message> messageList = this.list(queryWrapper);
         // 检查查询结果

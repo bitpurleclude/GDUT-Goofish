@@ -1,7 +1,7 @@
 package org.gdutgoodfish.goodfish.mapper;
 
-import org.gdutgoodfish.goodfish.pojo.entity.Message;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.gdutgoodfish.goodfish.pojo.entity.Message;
 
 /**
  * <p>
@@ -12,5 +12,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @since 2024-11-15
  */
 public interface MessageMapper extends BaseMapper<Message> {
+
 
 }

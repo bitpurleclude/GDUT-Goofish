@@ -6,10 +6,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.gdutgoodfish.goodfish.pojo.common.Result;
 import org.gdutgoodfish.goodfish.pojo.dto.MessageAddDTO;
 import org.gdutgoodfish.goodfish.pojo.entity.Message;
+import org.gdutgoodfish.goodfish.pojo.vo.UserVO;
 import org.gdutgoodfish.goodfish.service.IMessageService;
+import org.gdutgoodfish.goodfish.service.IUsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,6 +30,9 @@ public class MessageController {
 
     @Autowired
     IMessageService messageService;
+
+    @Autowired
+    IUsersService usersService;
 
     /**
      * 新增消息
@@ -130,5 +136,19 @@ public class MessageController {
         // 查询
         List<Message> messageList = messageService.getAllMessage(receiveId);
         return Result.success(messageList);
+    }
+
+    /**
+     * 获得跟自己聊过天的人的集合
+     */
+    @GetMapping("/getChattedUsers")
+    public Result<List<UserVO>> getChattedUsers() {
+        log.info("查询与当前用户为聊过天的人");
+        // 查询
+        List<UserVO> userVOList = usersService.getChattedUsers();
+        if (userVOList == null || userVOList.isEmpty()) {
+            userVOList = new ArrayList<>();
+        }
+        return Result.success(userVOList);
     }
 }
