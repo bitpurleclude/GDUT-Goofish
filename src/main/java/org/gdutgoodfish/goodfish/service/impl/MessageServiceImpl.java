@@ -4,6 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.gdutgoodfish.goodfish.exception.BaseException;
 import org.gdutgoodfish.goodfish.mapper.MessageMapper;
 import org.gdutgoodfish.goodfish.pojo.common.UserContext;
 import org.gdutgoodfish.goodfish.pojo.dto.MessageAddDTO;
@@ -37,6 +38,14 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
 
     @Override
     public boolean addMessage(MessageAddDTO messageAddDTO) {
+        // 校验receiveId
+        Long receiveId = messageAddDTO.getReceiveId();
+        if (receiveId == null) {
+            throw new BaseException("receiveId不能为空");
+        }
+        if (receiveId < 0) {
+            throw new BaseException("receiveId不能小于0");
+        }
         // 从messageAddDTO取出参数复制到message实体
         Message message = BeanUtil.copyProperties(messageAddDTO, Message.class);
         // 往message添加默认值
@@ -56,7 +65,9 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
         Long sendId = UserContext.getCurrentId();
         // 封装queryWrapper
         QueryWrapper<Message> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("send_id", sendId).or().eq("receive_id", sendId);
+        queryWrapper.eq("send_id", sendId).eq("receive_id", receiveId)
+                .or()
+                .eq("send_id", receiveId).eq("receive_id", sendId);
         // 删除消息并返回结果
         return this.remove(queryWrapper);
     }

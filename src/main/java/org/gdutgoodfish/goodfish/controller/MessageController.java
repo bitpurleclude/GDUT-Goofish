@@ -43,6 +43,7 @@ public class MessageController {
      */
     @PostMapping("/add")
     public Result addMessage(@RequestBody MessageAddDTO messageAddDTO) {
+        log.info("添加消息：{}", messageAddDTO);
         // 存入message
         boolean success = messageService.addMessage(messageAddDTO);
         // 返回结果
