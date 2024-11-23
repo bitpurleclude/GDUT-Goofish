@@ -38,6 +38,7 @@ public class MessageController {
 
     /**
      * 新增消息
+     *
      * @param messageAddDTO
      * @return
      */
@@ -76,6 +77,7 @@ public class MessageController {
 
     /**
      * 清空与某个人的聊天记录
+     *
      * @param receiveId
      * @return
      */
@@ -98,6 +100,7 @@ public class MessageController {
 
     /**
      * 获取单条消息
+     *
      * @param messageId
      * @return
      */
@@ -109,22 +112,21 @@ public class MessageController {
         }
         // 获取message
         Message message = messageService.getById(messageId);
+        if (message == null) {
+            return Result.error("获取消息失败");
+        }
         MessageVO messageVO = new MessageVO();
         BeanUtil.copyProperties(message, messageVO);
         setSendReceiveName(message, messageVO);
         // 根据结果返回对应msg
-        if(message != null) {
-            // 标记已读
-            UpdateWrapper updateWrapper = new UpdateWrapper<>();
-            updateWrapper.eq("id", messageId);
-            updateWrapper.set("`read`", 1);
-            messageService.update(updateWrapper);
-            message.setRead(1);
-            // 返回结果
-            return Result.success(messageVO);
-        } else {
-            return Result.error("获取消息失败");
-        }
+        // 标记已读
+        UpdateWrapper updateWrapper = new UpdateWrapper<>();
+        updateWrapper.eq("id", messageId);
+        updateWrapper.set("`read`", 1);
+        messageService.update(updateWrapper);
+        message.setRead(1);
+        // 返回结果
+        return Result.success(messageVO);
     }
 
     private void setSendReceiveName(Message message, MessageVO messageVO) {
@@ -136,6 +138,7 @@ public class MessageController {
 
     /**
      * 查询与某人的全部聊天记录
+     *
      * @param receiveId
      * @return
      */
