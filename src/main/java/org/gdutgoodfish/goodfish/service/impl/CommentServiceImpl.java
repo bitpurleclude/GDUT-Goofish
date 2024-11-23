@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.gdutgoodfish.goodfish.constant.PageConstant;
+import org.gdutgoodfish.goodfish.exception.BaseException;
 import org.gdutgoodfish.goodfish.mapper.CommentMapper;
 import org.gdutgoodfish.goodfish.pojo.common.UserContext;
 import org.gdutgoodfish.goodfish.pojo.dto.CommentAddDTO;
@@ -39,9 +40,15 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     IUsersService usersService;
     @Override
     public boolean addComment(CommentAddDTO commentAddDTO) {
+        String context = commentAddDTO.getContext();
+        Long itemId = commentAddDTO.getItemId();
         // 判断传入参数是否正确
-        if (StringUtils.isBlank(commentAddDTO.getContext()) || commentAddDTO.getItemId() == null) {
-            throw new RuntimeException("评论和商品Id不能为空");
+        if (StringUtils.isBlank(context) || itemId == null) {
+            throw new BaseException("评论和商品Id不能为空");
+        }
+        // 校验参数
+        if (itemId < 0) {
+            throw new BaseException("itemId不能小于0");
         }
         // 获取传入的信息
         Comment comment = new Comment();
@@ -62,6 +69,10 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         }
         if (commentPageQueryDTO.getPageSize() == null) {
             commentPageQueryDTO.setPageSize(PageConstant.DEFAULT_PAGE_SIZE);
+        }
+        // 参数校验
+        if (commentPageQueryDTO.getPage() <= 0 || commentPageQueryDTO.getPageSize() <= 0) {
+            throw new BaseException("page或pageSize参数错误");
         }
         // 创建分页对象
         Page<Comment> page = new Page<>(commentPageQueryDTO.getPage(), commentPageQueryDTO.getPageSize());
@@ -105,7 +116,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     public List<Comment> getByItemId(Long itemId) {
         // 判断参数是否为空
         if (itemId == null) {
-            throw new RuntimeException("商品id不能为空");
+            throw new BaseException("商品id不能为空");
         }
         // 构建queryWrapper
         QueryWrapper<Comment> queryWrapper = new QueryWrapper<>();
