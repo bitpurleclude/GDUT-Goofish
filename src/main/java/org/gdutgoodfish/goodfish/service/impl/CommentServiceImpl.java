@@ -39,6 +39,10 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     IUsersService usersService;
     @Override
     public boolean addComment(CommentAddDTO commentAddDTO) {
+        // 判断传入参数是否正确
+        if (StringUtils.isBlank(commentAddDTO.getContext()) || commentAddDTO.getItemId() == null) {
+            throw new RuntimeException("评论和商品Id不能为空");
+        }
         // 获取传入的信息
         Comment comment = new Comment();
         BeanUtil.copyProperties(commentAddDTO, comment);
@@ -99,6 +103,10 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
 
     @Override
     public List<Comment> getByItemId(Long itemId) {
+        // 判断参数是否为空
+        if (itemId == null) {
+            throw new RuntimeException("商品id不能为空");
+        }
         // 构建queryWrapper
         QueryWrapper<Comment> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("item_id", itemId);
