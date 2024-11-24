@@ -76,6 +76,13 @@ public class ItemController {
 
     @PutMapping("/update")
     public Result<ItemVO> updateItem(@RequestBody ItemUpdateDTO itemUpdateDTO) {
+        // 参数判断
+        if (itemUpdateDTO.getPrice().compareTo(BigDecimal.valueOf(0)) == -1) {
+            return Result.error("价格不能小于0");
+        }
+        if (itemUpdateDTO.getCategoryId() == null || itemUpdateDTO.getCategoryId() < 0) {
+            return Result.error("categoryId不能为空");
+        }
         log.info("更新商品: {}", itemUpdateDTO);
         Item item = new Item();
         BeanUtils.copyProperties(itemUpdateDTO, item);
