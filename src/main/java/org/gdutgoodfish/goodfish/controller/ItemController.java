@@ -80,8 +80,12 @@ public class ItemController {
         Item item = new Item();
         BeanUtils.copyProperties(itemUpdateDTO, item);
         log.info("{}", item);
-        itemService.updateById(item);
-        return Result.success("商品更新成功");
+        boolean success = itemService.updateById(item);
+        if (success) {
+            return Result.success("商品更新成功");
+        } else {
+            return Result.error("商品更新失败");
+        }
     }
 
 
