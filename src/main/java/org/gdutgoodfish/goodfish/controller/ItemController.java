@@ -40,8 +40,12 @@ public class ItemController {
     @DeleteMapping
     public Result<String> deleteItem(@RequestParam("ids") List<Long> ids) {
         log.info("删除商品: {}", ids);
-        itemService.removeByIds(ids);
-        return Result.success("商品删除成功");
+        boolean success = itemService.removeByIds(ids);
+        if (success) {
+            return Result.success("商品删除成功");
+        } else {
+            return Result.error("商品删除失败");
+        }
     }
 
     @PostMapping

@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.extension.toolkit.Db;
 import lombok.RequiredArgsConstructor;
+import org.gdutgoodfish.goodfish.constant.PageConstant;
 import org.gdutgoodfish.goodfish.exception.ItemException.ItemNotExistException;
 import org.gdutgoodfish.goodfish.mapper.ItemMapper;
 import org.gdutgoodfish.goodfish.pojo.common.UserContext;
@@ -55,6 +56,13 @@ public class ItemServiceImpl extends ServiceImpl<ItemMapper, Item> implements II
 
     @Override
     public PageQueryVO<ItemVO> pageQuery(ItemPageQueryDTO itemPageQueryDTO) {
+        // 判断是否传入分页条件，没有传入的话用默认分页条件
+        if (itemPageQueryDTO.getPage() == null) {
+            itemPageQueryDTO.setPage(Long.valueOf(PageConstant.DEFAULT_PAGE));
+        }
+        if (itemPageQueryDTO.getPageSize() == null) {
+            itemPageQueryDTO.setPageSize(Long.valueOf(PageConstant.DEFAULT_PAGE_SIZE));
+        }
         IPage<ItemVO> iPage = baseMapper.pageQuery(Page.of(itemPageQueryDTO.getPage(), itemPageQueryDTO.getPageSize()), itemPageQueryDTO);
         return new PageQueryVO<>(iPage.getTotal(), iPage.getRecords());
     }
