@@ -1,22 +1,23 @@
 package org.gdutgoodfish.goodfish.controller;
 
 
-import com.baomidou.mybatisplus.extension.toolkit.Db;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.gdutgoodfish.goodfish.exception.BaseException;
 import org.gdutgoodfish.goodfish.pojo.common.Result;
 import org.gdutgoodfish.goodfish.pojo.common.UserContext;
 import org.gdutgoodfish.goodfish.pojo.dto.ItemAddDTO;
 import org.gdutgoodfish.goodfish.pojo.dto.ItemPageQueryDTO;
 import org.gdutgoodfish.goodfish.pojo.dto.ItemUpdateDTO;
 import org.gdutgoodfish.goodfish.pojo.entity.Item;
-import org.gdutgoodfish.goodfish.pojo.entity.Users;
 import org.gdutgoodfish.goodfish.pojo.vo.ItemVO;
 import org.gdutgoodfish.goodfish.pojo.vo.PageQueryVO;
 import org.gdutgoodfish.goodfish.service.IItemService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -50,6 +51,23 @@ public class ItemController {
 
     @PostMapping
     public Result<String> addItems(@RequestBody ItemAddDTO itemAddDTO) {
+        // 对传入参数进行判空
+        if (itemAddDTO.getCategoryId() == null ||
+                itemAddDTO.getPrice() == null ||
+                StringUtils.isBlank(itemAddDTO.getDescription()) ||
+                StringUtils.isBlank(itemAddDTO.getImage()) ||
+                StringUtils.isBlank(itemAddDTO.getLocation()) ||
+                StringUtils.isBlank(itemAddDTO.getName())) {
+            throw new BaseException("参数均不能为空");
+        }
+        // 校验参数
+        if (itemAddDTO.getCategoryId() < 0) {
+            throw new BaseException("categoryId不能为空");
+        }
+        if (itemAddDTO.getPrice().compareTo(BigDecimal.valueOf(0)) == -1) {
+            throw new BaseException("价格不能小于0");
+        }
+        // 添加商品
         log.info("添加商品: {}", itemAddDTO);
         Item item = new Item();
         BeanUtils.copyProperties(itemAddDTO, item);
