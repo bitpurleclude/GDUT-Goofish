@@ -19,6 +19,17 @@ export function getSearchResult({ itemName = '', page = 0, pageSize = 10, catego
 
   return axios.get(url, { params });
 }
+export function uploadItem(file) {
+  const url = HOST + '/upload';
+  const formData = new FormData();
+  formData.append('file', file);
+
+  return axios.post(url, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+}
 export function getItems() {
   const url = HOST + '/item'
   return axios.get(url)

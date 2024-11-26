@@ -5,9 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.gdutgoodfish.goodfish.pojo.common.Result;
 import org.gdutgoodfish.goodfish.pojo.dto.FavoritesAddDTO;
-import org.gdutgoodfish.goodfish.pojo.entity.Item;
 import org.gdutgoodfish.goodfish.pojo.vo.FavoriteVO;
-import org.gdutgoodfish.goodfish.pojo.vo.ItemVO;
 import org.gdutgoodfish.goodfish.pojo.vo.PageQueryVO;
 import org.gdutgoodfish.goodfish.service.IFavoriteService;
 import org.springframework.web.bind.annotation.*;
@@ -29,10 +27,9 @@ public class FavoriteController {
     private final IFavoriteService favoriteService;
 
     @PostMapping
-    public Result<String> addFavorite(@RequestBody FavoritesAddDTO favoritesAddDTO) {
+    public Result addFavorite(@RequestBody FavoritesAddDTO favoritesAddDTO) {
         log.info("收藏商品id {}", favoritesAddDTO.getItemId());
-        favoriteService.addFavorite(favoritesAddDTO);
-        return Result.success("收藏成功");
+        return favoriteService.addFavorite(favoritesAddDTO);
     }
 
     @GetMapping

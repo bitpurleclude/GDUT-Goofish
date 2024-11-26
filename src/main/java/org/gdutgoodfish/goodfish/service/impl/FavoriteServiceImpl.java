@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.gdutgoodfish.goodfish.mapper.FavoriteMapper;
+import org.gdutgoodfish.goodfish.pojo.common.Result;
 import org.gdutgoodfish.goodfish.pojo.common.UserContext;
 import org.gdutgoodfish.goodfish.pojo.dto.FavoritesAddDTO;
 import org.gdutgoodfish.goodfish.pojo.entity.Favorite;
@@ -30,13 +31,23 @@ import java.util.List;
 public class FavoriteServiceImpl extends ServiceImpl<FavoriteMapper, Favorite> implements IFavoriteService {
 
     @Override
-    public void addFavorite(FavoritesAddDTO favoritesAddDTO) {
-        Favorite favorite = Favorite.builder()
-                .itemId(favoritesAddDTO.getItemId())
-                .userId(UserContext.getCurrentId())
-                .createTime(LocalDateTime.now())
-                .build();
-        save(favorite);
+    public Result addFavorite(FavoritesAddDTO favoritesAddDTO) {
+        Favorite existingFavorite = lambdaQuery()
+        .eq(Favorite::getItemId, favoritesAddDTO.getItemId())
+        .eq(Favorite::getUserId, UserContext.getCurrentId())
+        .one();
+
+if (existingFavorite == null) {
+    Favorite favorite = Favorite.builder()
+            .itemId(favoritesAddDTO.getItemId())
+            .userId(UserContext.getCurrentId())
+            .createTime(LocalDateTime.now())
+            .build();
+    save(favorite);
+    return Result.success("收藏成功");
+}else {
+    return Result.error("已收藏");
+}
     }
 
     @Override

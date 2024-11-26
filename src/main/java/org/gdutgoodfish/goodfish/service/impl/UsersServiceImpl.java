@@ -123,5 +123,21 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
         List<UserVO> userVOList = userList.stream().map(user -> BeanUtil.copyProperties(user, UserVO.class)).collect(Collectors.toList());
         return userVOList;
     }
+    /**
+     * 获取用户信息
+     *
+     * @return
+     */
+    @Override
+    public boolean update(Users user) {
+        return lambdaUpdate()
+                .eq(Users::getId, user.getId())
+                .set(user.getUsername() != null, Users::getUsername, user.getUsername())
+                .set(user.getEmail() != null, Users::getEmail, user.getEmail())
+                .set(user.getPhoneNumber() != null, Users::getPhoneNumber, user.getPhoneNumber())
+                .set(user.getAvatar() != null, Users::getAvatar, user.getAvatar())
+                .set(user.getSex()!=null, Users::getSex, user.getSex())
+                .update();
+    }
 
 }

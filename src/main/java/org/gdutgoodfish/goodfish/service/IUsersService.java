@@ -19,4 +19,6 @@ public interface IUsersService extends IService<Users> {
     void resetPassword(UserResetPasswordDTO resetPasswordDTO);
 
     List<UserVO> getChattedUsers();
+
+    boolean update(Users users);
 }

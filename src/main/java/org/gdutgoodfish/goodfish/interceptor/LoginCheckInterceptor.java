@@ -7,6 +7,8 @@ import org.gdutgoodfish.goodfish.exception.userException.TokenException;
 import org.gdutgoodfish.goodfish.pojo.common.UserContext;
 import org.gdutgoodfish.goodfish.pojo.entity.Users;
 import org.gdutgoodfish.goodfish.util.JwtUtil;
+import org.gdutgoodfish.goodfish.util.TokenUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import javax.servlet.http.HttpServletRequest;
@@ -24,6 +26,8 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
      * @return
      * @throws Exception
      */
+    @Autowired
+    private TokenUtils tokenUtils;
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
 
@@ -43,6 +47,12 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
         }
         //3.获取请求头中的token
         String token = request.getHeader("token");
+        //4.判断token是否已经失效
+        log.info("token:{}", tokenUtils.isTokenInvalidated(token));
+        if (tokenUtils.isTokenInvalidated(token))
+        {
+            throw new TokenException("已经推出请先重新登录");
+        }
         Claims claims;
         //5.解析token
         try {
